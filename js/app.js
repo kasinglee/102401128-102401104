@@ -134,6 +134,16 @@
       const form = document.getElementById("home-search-form");
       const input = document.getElementById("home-search-query");
       if (form && input) {
+        const clearEmptyQuery = () => {
+          if (currentQuery && !input.value.trim()) {
+            currentQuery = "";
+            render();
+            const nextInput = document.getElementById("home-search-query");
+            if (nextInput) nextInput.focus();
+          }
+        };
+        input.addEventListener("input", clearEmptyQuery);
+        input.addEventListener("search", clearEmptyQuery);
         form.addEventListener("submit", (event) => {
           event.preventDefault();
           currentQuery = String(input.value || "").trim();
