@@ -110,7 +110,7 @@ textarea.input { min-height: 93px; resize: vertical; }
 @media (max-width: 760px) {
   .container { padding: 0 17px; }
   .header-inner { padding: 12px 17px; }
-  .hero-inner { min-height: 230px; }
+  .hero-inner { min-height: 220px; }
   .hero-art { width: 155px; min-width: 155px; transform: scale(.72); transform-origin: right center; }
   .hero h1 { font-size: 32px; }
   .item-grid { grid-template-columns: 1fr; }
@@ -119,17 +119,75 @@ textarea.input { min-height: 93px; resize: vertical; }
 }
 
 @media (max-width: 480px) {
+  .app-shell { padding-bottom: 74px; }
+  .site-header { padding-top: env(safe-area-inset-top); }
+  .header-inner { min-height: 60px; padding: 10px 16px; }
   .brand-name { font-size: 19px; }
   .brand-mark { width: 35px; height: 35px; }
-  .nav-link { padding: 8px 10px; font-size: 12px; }
-  .hero-inner { min-height: 245px; }
+  .site-nav {
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+    background: #fff;
+    border-top: 1px solid #e1ebe5;
+    box-shadow: 0 -6px 18px #244b3b12;
+  }
+  .nav-link { min-width: 0; min-height: 44px; padding: 9px 10px; font-size: 14px; }
+  .nav-primary { box-shadow: none; }
+  .hero-inner { min-height: 0; padding-top: 28px; padding-bottom: 30px; }
   .hero-art { display: none; }
-  .hero-copy { font-size: 14px; }
-  .item-card { padding: 14px; gap: 10px; }
-  .item-thumb { width: 83px; height: 83px; font-size: 36px; }
-  .item-card h3 { font-size: 16px; }
-  .form-card { padding: 18px; }
+  .hero .eyebrow { margin-bottom: 9px; }
+  .hero h1 { font-size: clamp(28px, 8vw, 32px); line-height: 1.22; margin-bottom: 10px; }
+  .hero-copy { font-size: 13px; line-height: 1.6; margin-bottom: 16px; }
+  .hero-copy br { display: none; }
+  .hero .button { min-height: 42px; padding: 8px 15px; font-size: 13px; }
+  .listing { padding-top: 25px; padding-bottom: 32px; }
+  .section-head { display: block; position: relative; margin-bottom: 14px; }
+  .section-head .eyebrow { margin-bottom: 8px; }
+  .section-head h2 { font-size: 22px; margin-bottom: 5px; }
+  .section-sub { font-size: 12px; line-height: 1.5; }
+  .count { position: absolute; right: 0; top: 27px; padding: 6px 9px; font-size: 11px; }
+  .filter-bar { gap: 7px; margin-bottom: 13px; }
+  .filter-button { min-height: 36px; padding: 6px 15px; font-size: 13px; }
+  .item-grid { gap: 11px; }
+  .item-card { padding: 13px; gap: 10px; border-radius: 14px; }
+  .badges { gap: 5px; margin-bottom: 8px; }
+  .item-card h3 { font-size: 16px; margin-bottom: 5px; }
+  .item-description { margin-bottom: 9px; font-size: 12px; }
+  .item-meta { gap: 4px 10px; font-size: 11px; }
+  .item-thumb { width: 76px; height: 76px; font-size: 34px; border-radius: 10px; }
+  .publish-wrap { padding: 22px 13px 30px; }
+  .page-intro { margin-bottom: 16px; }
+  .page-intro .eyebrow { margin-bottom: 8px; }
+  .page-intro h1 { font-size: 25px; margin-bottom: 4px; }
+  .page-intro p { margin-bottom: 0; font-size: 13px; }
+  .form-card { padding: 16px; border-radius: 15px; }
+  .form-section h2 { font-size: 15px; margin-bottom: 13px; }
+  .form-section + .form-section { margin-top: 15px; padding-top: 17px; }
+  .type-switch { gap: 8px; margin-bottom: 17px; }
+  .type-choice { min-width: 0; min-height: 44px; font-size: 14px; }
   .field-grid { grid-template-columns: 1fr; }
+  .field { margin-bottom: 13px; }
+  .field label { margin-bottom: 5px; }
+  .input { min-height: 44px; font-size: 16px; }
+  textarea.input { min-height: 78px; }
+  .photo-preview { width: 58px; height: 58px; }
+  .photo-row { gap: 9px; }
+  .file-input { max-width: calc(100% - 70px); }
+  .field-help { margin-top: 5px; }
+  .privacy-note { padding: 9px 10px; margin-bottom: 13px; }
+  .form-actions { margin-top: 4px; }
   .form-actions .button { flex: 1; }
-  .site-footer { flex-direction: column; }
+  .site-footer { flex-direction: column; padding: 15px 17px; gap: 4px; }
+  .toast { bottom: calc(72px + env(safe-area-inset-bottom)); }
+}
+
+@media (min-width: 380px) and (max-width: 480px) {
+  .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; }
 }
