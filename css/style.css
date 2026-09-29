@@ -163,22 +163,22 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .site-nav .nav-link.is-active:hover { background: transparent; color: #0f766e; font-weight: 700; }
   .site-nav .nav-icon { width: 22px; height: 22px; }
   .page-topbar { min-height: 54px; padding: 7px 14px; }
-  .listing { padding-top: 18px; padding-bottom: 32px; }
+  .listing { padding-top: 20px; padding-bottom: 42px; }
   .section-head { display: block; position: relative; margin-bottom: 14px; }
   .section-head .eyebrow { margin-bottom: 8px; }
   .section-head h2 { font-size: 22px; margin-bottom: 5px; }
   .count { position: absolute; right: 0; top: 27px; padding: 6px 9px; font-size: 11px; }
   .filter-bar { gap: 7px; margin-bottom: 13px; }
   .filter-tools { align-items: center; gap: 8px; }
-  .filter-tools .filter-bar { margin-bottom: 13px; }
-  .active-only { min-height: 36px; margin-bottom: 13px; font-size: 12px; }
+  .filter-tools .filter-bar { margin-bottom: 16px; }
+  .active-only { min-height: 36px; margin-bottom: 16px; font-size: 12px; }
   .filter-button { min-height: 36px; padding: 6px 15px; font-size: 13px; }
-  .item-grid { gap: 11px; }
-  .item-card { padding: 13px; gap: 10px; border-radius: 14px; }
-  .badges { gap: 5px; margin-bottom: 8px; }
-  .item-card h3 { font-size: 16px; margin-bottom: 5px; }
-  .item-description { margin-bottom: 9px; font-size: 12px; }
-  .item-meta { gap: 4px 10px; font-size: 11px; }
+  .item-grid { gap: 16px; }
+  .item-card { padding: 16px; gap: 12px; border-radius: 16px; }
+  .badges { gap: 6px; margin-bottom: 10px; }
+  .item-card h3 { font-size: 16px; line-height: 1.45; margin-bottom: 8px; }
+  .item-description { margin-bottom: 12px; font-size: 12.5px; line-height: 1.65; }
+  .item-meta { gap: 6px 12px; font-size: 11.5px; line-height: 1.5; }
   .item-thumb { width: 76px; min-height: 76px; font-size: 42px; border-radius: 10px; }
   .publish-wrap { padding: 22px 13px 30px; }
   .page-intro { margin-bottom: 16px; }
@@ -356,7 +356,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
 }
 
 @media (max-width: 480px) {
-  .my-posts-list { gap: 11px; }
+  .my-posts-list { gap: 16px; }
   .my-post-item { padding: 13px; border-radius: 14px; }
   .similar-clue { grid-template-columns: minmax(0, 1fr) auto; }
   .similar-clue-reason { grid-column: 1 / -1; }
@@ -402,8 +402,6 @@ body[data-page="my-posts"] .site-footer { display: none; }
 
 @media (max-width: 480px) {
   .filter-tools { flex-wrap: wrap; gap: 0 12px; }
-  .filter-tools .filter-bar { margin-bottom: 9px; }
-  .active-only { margin-bottom: 14px; }
   /* A backdrop filter on this ancestor would anchor the fixed mobile nav to the header. */
   .site-header { background: #fffffff5; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .site-nav { background: #fffffff2; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
