@@ -28,11 +28,11 @@
   }
 
   function topbarHtml() {
-    return `<div class="page-topbar page-topbar-detail">
+    return `<div class="page-topbar page-topbar-detail"><div class="page-topbar-inner">
       <button class="page-back" type="button" data-back aria-label="返回上一页"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 19-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <h1>详情</h1>
       <button class="page-home" type="button" data-nav="home">首页</button>
-    </div>`;
+    </div></div>`;
   }
 
   function notFoundHtml() {

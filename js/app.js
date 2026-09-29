@@ -14,6 +14,7 @@
   let currentPage = "home";
   let currentParams = {};
   let currentFilter = "all";
+  let currentQuery = "";
   let toastTimer;
 
   function escapeHtml(value) {
@@ -108,18 +109,47 @@
 
   registerPage("home", {
     render() {
-      const items = store.list({ type: currentFilter });
+      const items = store.list({ type: currentFilter, query: currentQuery });
       const filterButton = (value, label) => `<button type="button" class="filter-button${currentFilter === value ? " is-active" : ""}" data-filter="${value}" aria-pressed="${currentFilter === value}">${label}</button>`;
+      const resultNote = currentQuery
+        ? `<div class="home-search-state"><span>正在显示与“<strong>${escapeHtml(currentQuery)}</strong>”相关的信息</span><button type="button" data-clear-home-search>清除搜索</button></div>`
+        : "";
+      const emptyMessage = currentQuery
+        ? `没有找到与“${escapeHtml(currentQuery)}”相关的信息，请换个关键词试试。`
+        : "该分类还没有信息，欢迎发布第一条。";
       return `<section class="container listing" aria-labelledby="listing-title">
-        <button type="button" class="search-entry" data-nav="search" data-entry="new" aria-label="按关键词搜索失物信息">
+        <form class="search-entry" id="home-search-form" role="search">
           <svg class="search-entry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span class="search-entry-text">搜索物品名称、补充描述或地点</span>
-          <span class="search-entry-cta">搜索</span>
-        </button>
+          <label class="sr-only" for="home-search-query">搜索物品名称、补充描述或地点</label>
+          <input class="search-entry-text" id="home-search-query" name="query" type="search" value="${escapeHtml(currentQuery)}" placeholder="搜索物品名称、补充描述或地点" autocomplete="off">
+          <button class="search-entry-cta" type="submit">搜索</button>
+        </form>
+        ${resultNote}
         <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2><p class="section-sub">进行中的信息优先展示，已结束记录仍可查看。</p></div><span class="count">共 ${items.length} 条</span></div>
         <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
-        <div class="item-grid">${items.length ? items.map(renderCard).join("") : `<div class="empty"><span class="empty-icon">🔎</span>该分类还没有信息，欢迎发布第一条。</div>`}</div>
+        <div class="item-grid">${items.length ? items.map(renderCard).join("") : `<div class="empty"><span class="empty-icon">🔎</span>${emptyMessage}</div>`}</div>
       </section>`;
+    },
+    mount() {
+      const form = document.getElementById("home-search-form");
+      const input = document.getElementById("home-search-query");
+      if (form && input) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          currentQuery = String(input.value || "").trim();
+          render();
+          showToast(currentQuery ? `已在首页筛选“${currentQuery}”` : "已显示全部信息");
+        });
+      }
+      const clear = document.querySelector("[data-clear-home-search]");
+      if (clear) {
+        clear.addEventListener("click", () => {
+          currentQuery = "";
+          render();
+          const nextInput = document.getElementById("home-search-query");
+          if (nextInput) nextInput.focus();
+        });
+      }
     },
   });
 

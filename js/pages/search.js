@@ -69,9 +69,10 @@
   }
 
   function pageHtml() {
-    return `<div class="page-topbar search-topbar">
+    return `<div class="page-topbar search-topbar"><div class="page-topbar-inner">
       <button class="page-back" type="button" data-back aria-label="返回首页"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 19-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <h1>搜索</h1>
+    </div>
     </div>
     <section class="page-wrap search-wrap" aria-labelledby="search-title">
       <div class="search-intro">
