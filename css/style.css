@@ -332,7 +332,19 @@ body[data-page="my-posts"] .site-footer { display: none; }
 .my-posts-summary strong { color: #19333a; }
 .my-posts-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
 .my-post-item { min-width: 0; display: flex; flex-direction: column; gap: 0; background: #fff; border: 1px solid #e3ebe7; border-radius: 17px; padding: 16px; box-shadow: 0 5px 18px #28544709; }
+.my-post-item.is-new-post { border-color: #75bea8; box-shadow: 0 0 0 2px #bde6d7, 0 8px 24px #28544712; }
 .my-post-item .item-card { border: 0; box-shadow: none; padding: 0; border-radius: 0; background: transparent; }
+.similar-clues { margin-top: 14px; padding: 13px; border: 1px solid #d5e9de; border-radius: 12px; background: #f2faf5; }
+.similar-clues-head { display: flex; gap: 8px; color: #285f55; font-size: 13px; line-height: 1.45; }
+.similar-clues-head strong { color: #155f56; }
+.similar-clues-head p { margin: 3px 0 0; color: #66817b; font-size: 11px; }
+.similar-clues-list { display: grid; gap: 7px; margin-top: 10px; }
+.similar-clue { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; padding: 9px 10px; border: 1px solid #dcebe3; border-radius: 9px; background: #fff; color: #19333a; text-align: left; }
+.similar-clue:hover { border-color: #9bcdbc; background: #fbfefc; }
+.similar-clue-main { min-width: 0; display: grid; gap: 2px; }
+.similar-clue-main b, .similar-clue-main small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.similar-clue-main small { color: #758b86; font-size: 10px; }
+.similar-clue-reason { color: #0f766e; font-size: 10px; }
 .my-post-actions { display: flex; margin-top: 14px; padding-top: 14px; border-top: 1px solid #eef3ef; }
 .my-post-actions .finish-button { width: 100%; }
 .my-post-done { margin: 14px 0 0; padding-top: 13px; border-top: 1px solid #eef3ef; color: #7b918b; font-size: 12px; line-height: 1.6; }
@@ -347,5 +359,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .my-posts-note { padding: 9px 11px; margin-bottom: 13px; }
   .my-posts-list { gap: 11px; }
   .my-post-item { padding: 13px; border-radius: 14px; }
+  .similar-clue { grid-template-columns: minmax(0, 1fr) auto; }
+  .similar-clue-reason { grid-column: 1 / -1; }
   .my-post-actions .finish-button { flex: 1; }
 }
