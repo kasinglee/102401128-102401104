@@ -405,6 +405,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
 
 /* The nested card in "My posts" shares the outer card's rounded hover surface. */
 .my-post-item .item-card:is(:hover, :focus-within) { transform: none; border-color: transparent; box-shadow: none; }
+.listing .item-card.is-disappearing { animation: none; opacity: 0; transform: translateY(-8px) scale(.98); pointer-events: none; transition: opacity .22s ease, transform .22s var(--ease-settle); }
 
 @media (max-width: 480px) {
   .filter-tools { flex-wrap: wrap; gap: 0 12px; }
