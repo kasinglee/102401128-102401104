@@ -128,7 +128,7 @@
         <p class="search-syntax" id="home-search-help">空格或逗号可组合线索；“东三”与“东3”相同。正则示例：/雨伞|耳机/</p>
         <p class="search-error" id="home-search-error" role="alert" hidden></p>
         ${resultNote}
-        <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2><p class="section-sub">进行中的信息优先展示，已结束记录仍可查看。</p></div><span class="count">共 ${items.length} 条</span></div>
+        <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2></div><span class="count">共 ${items.length} 条</span></div>
         <div class="filter-tools">
           <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
           <label class="active-only"><input type="checkbox" data-active-only${activeOnly ? " checked" : ""}><span class="active-only-track" aria-hidden="true"></span><span>只看进行中</span></label>
@@ -193,7 +193,7 @@
       const now = new Date();
       const today = dateValue(now);
       const field = (id, label, input, full = false, help = "") => `<div class="field${full ? " full" : ""}"><label for="${id}">${label}</label>${input}<p class="field-error" id="${id}-error" aria-live="polite"></p>${help ? `<p class="field-help">${help}</p>` : ""}</div>`;
-      return `<div class="publish-wrap"><div class="page-intro"><p class="eyebrow">CREATE A POST</p><h1>发布失物信息</h1><p>留下关键线索，让需要的人更快找到你。</p></div>
+      return `<div class="publish-wrap"><div class="page-intro"><p class="eyebrow">CREATE A POST</p><h1>发布失物信息</h1></div>
         <form class="form-card" id="publish-form" novalidate>
           <section class="form-section"><h2>01 · 信息类型</h2><div class="type-switch" role="group" aria-label="选择信息类型">
             <button type="button" class="type-choice is-active" data-type="lost" aria-pressed="true">🔎 我在寻物</button>
