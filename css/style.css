@@ -5,6 +5,7 @@
   font-synthesis: none;
   --ease-settle: cubic-bezier(.22, 1, .36, 1);
   --ease-bounce: cubic-bezier(.2, 1.35, .42, 1);
+  --content-width: 820px;
 }
 
 * { box-sizing: border-box; }
@@ -18,7 +19,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
 .site-header { position: sticky; top: 0; z-index: 30; background: #fff; border-bottom: 1px solid #dce9e3; box-shadow: 0 4px 18px #244b3b0b; }
-.header-inner { max-width: 1140px; min-height: 72px; margin: auto; padding: 12px 30px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.header-inner { max-width: var(--content-width); min-height: 72px; margin: auto; padding: 12px 30px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .brand { border: 0; padding: 0; display: flex; gap: 10px; align-items: center; background: transparent; color: #163a39; }
 .brand-mark { width: 42px; height: 42px; border-radius: 13px; background: #0f766e; color: white; display: grid; place-items: center; font-weight: 800; font-size: 22px; box-shadow: 0 5px 14px #0f766e30; }
 .brand-name { font-size: 23px; font-weight: 800; letter-spacing: .04em; }
@@ -31,7 +32,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 .nav-primary:hover, .nav-primary.is-active { background: #0b645d; color: white; }
 
 main { width: 100%; flex: 1; }
-.container { max-width: 1140px; margin: auto; padding: 0 30px; }
+.container { max-width: var(--content-width); margin: auto; padding: 0 30px; }
 .eyebrow { margin: 0 0 15px; color: #128070; font-size: 12px; font-weight: 800; letter-spacing: .16em; }
 h1, h2, h3, p { margin-top: 0; }
 .button { min-height: 44px; border-radius: 11px; padding: 10px 18px; font-weight: 750; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
@@ -77,7 +78,7 @@ h1, h2, h3, p { margin-top: 0; }
 .empty { grid-column: 1 / -1; border: 1px dashed #cbded3; background: #fafdF9; text-align: center; border-radius: 17px; padding: 45px 20px; color: #66817b; }
 .empty-icon { font-size: 40px; display: block; margin-bottom: 12px; }
 
-.publish-wrap { max-width: 790px; margin: 0 auto; padding: 34px 30px 60px; }
+.publish-wrap { max-width: var(--content-width); margin: 0 auto; padding: 34px 30px 60px; }
 .page-intro { margin-bottom: 23px; }
 .page-intro h1 { font-size: 31px; margin-bottom: 6px; }
 .form-card { background: #fff; border: 1px solid #e2ebe5; border-radius: 18px; padding: 26px; box-shadow: 0 10px 30px #2854470b; }
@@ -108,11 +109,11 @@ textarea.input { min-height: 93px; resize: vertical; }
 .form-error { display: none; padding: 11px 13px; border-radius: 9px; background: #fff0ec; color: #ad5549; margin: 6px 0 16px; font-size: 13px; }
 .form-error.is-visible { display: block; }
 .form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 8px; }
-.site-footer { max-width: 1140px; width: 100%; margin: auto; padding: 24px 30px; border-top: 1px solid #e6eeea; color: #8a9e96; font-size: 12px; display: flex; justify-content: space-between; gap: 12px; }
+.site-footer { max-width: var(--content-width); width: 100%; margin: auto; padding: 24px 30px; border-top: 1px solid #e6eeea; color: #8a9e96; font-size: 12px; display: flex; justify-content: space-between; gap: 12px; }
 .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 15px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; background: #184842; color: white; border-radius: 10px; padding: 12px 18px; box-shadow: 0 10px 30px #123b3270; z-index: 10; max-width: min(90vw, 460px); text-align: center; font-size: 14px; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .page-topbar { min-height: 58px; position: relative; display: flex; align-items: center; justify-content: center; padding: 8px 16px; background: #f9fbfa; border-bottom: 1px solid #e5eeeb; }
-.page-topbar-inner { position: relative; width: 100%; max-width: 820px; min-height: 42px; display: flex; align-items: center; justify-content: center; }
+.page-topbar-inner { position: relative; width: 100%; max-width: var(--content-width); min-height: 42px; display: flex; align-items: center; justify-content: center; }
 .page-topbar-detail .page-topbar-inner { max-width: 720px; }
 .page-topbar h1 { margin: 0; font-size: 20px; font-weight: 700; }
 .page-back, .page-home { position: absolute; top: 50%; transform: translateY(-50%); min-width: 44px; min-height: 44px; border: 0; background: transparent; color: #0f766e; }
@@ -222,7 +223,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
 .search-syntax { margin: 0 2px 12px; color: #758b86; font-size: 12px; line-height: 1.5; }
 .search-error { margin: 0 2px 12px; color: #b14b42; font-size: 12px; line-height: 1.5; }
 
-.page-wrap { width: 100%; max-width: 820px; margin: 0 auto; padding: 30px 30px 60px; }
+.page-wrap { width: 100%; max-width: var(--content-width); margin: 0 auto; padding: 30px 30px 60px; }
 .search-intro { margin-bottom: 18px; padding: 21px 24px; border: 1px solid #dcece2; border-radius: 18px; background: linear-gradient(125deg, #e6f5eb, #f6faf3); }
 .search-intro .eyebrow { margin-bottom: 8px; }
 .search-intro h2 { margin: 0 0 5px; font-size: 25px; line-height: 1.35; }
@@ -324,7 +325,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
 }
 
 /* ── 第二阶段 · 我的发布 ─────────────────────────────────────── */
-.my-posts-wrap { max-width: 820px; }
+.my-posts-wrap { max-width: var(--content-width); }
 .my-posts-summary { margin: 0 0 14px; color: #66817b; font-size: 13px; }
 .my-posts-summary strong { color: #19333a; }
 .my-posts-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
