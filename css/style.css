@@ -100,6 +100,8 @@ textarea.input { min-height: 93px; resize: vertical; }
 .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 15px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; background: #184842; color: white; border-radius: 10px; padding: 12px 18px; box-shadow: 0 10px 30px #123b3270; z-index: 10; max-width: min(90vw, 460px); text-align: center; font-size: 14px; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .page-topbar { min-height: 58px; position: relative; display: flex; align-items: center; justify-content: center; padding: 8px 16px; background: #f9fbfa; border-bottom: 1px solid #e5eeeb; }
+.page-topbar-inner { position: relative; width: 100%; max-width: 820px; min-height: 42px; display: flex; align-items: center; justify-content: center; }
+.page-topbar-detail .page-topbar-inner { max-width: 720px; }
 .page-topbar h1 { margin: 0; font-size: 20px; font-weight: 700; }
 .page-back, .page-home { position: absolute; top: 50%; transform: translateY(-50%); min-width: 44px; min-height: 44px; border: 0; background: transparent; color: #0f766e; }
 .page-back { left: 12px; display: grid; place-items: center; }
@@ -192,11 +194,16 @@ body[data-page="my-posts"] .site-footer { display: none; }
 }
 
 /* ── 第二阶段 · 首页搜索入口与搜索页 ───────────────────────────── */
-.search-entry { width: 100%; display: flex; align-items: center; gap: 11px; margin-bottom: 18px; padding: 12px 16px; min-height: 52px; background: #fff; border: 1px solid #d9e7e0; border-radius: 14px; color: #66817b; text-align: left; box-shadow: 0 5px 18px #28544709; }
+.search-entry { width: 100%; display: flex; align-items: center; gap: 11px; margin-bottom: 10px; padding: 8px 10px 8px 16px; min-height: 52px; background: #fff; border: 1px solid #d9e7e0; border-radius: 14px; color: #66817b; text-align: left; box-shadow: 0 5px 18px #28544709; }
 .search-entry:hover { border-color: #9bcdbc; color: #0d6a62; }
 .search-entry-icon { width: 19px; height: 19px; flex: none; color: #0f766e; }
-.search-entry-text { flex: 1; min-width: 0; font-size: 15px; }
-.search-entry-cta { flex: none; font-size: 14px; font-weight: 750; color: #0f766e; background: #eaf4ef; border-radius: 9px; padding: 7px 14px; }
+.search-entry-text { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #19333a; font-size: 15px; }
+.search-entry-text::placeholder { color: #78908a; opacity: 1; }
+.search-entry-cta { flex: none; border: 0; font-size: 14px; font-weight: 750; color: #0f766e; background: #eaf4ef; border-radius: 9px; padding: 8px 15px; }
+.search-entry-cta:hover { background: #dff0e6; }
+.home-search-state { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 2px 18px; color: #66817b; font-size: 13px; line-height: 1.5; }
+.home-search-state strong { color: #19333a; }
+.home-search-state button { flex: none; border: 0; padding: 4px 0 4px 10px; background: transparent; color: #0f766e; font-weight: 750; }
 
 .page-wrap { width: 100%; max-width: 820px; margin: 0 auto; padding: 30px 30px 60px; }
 .search-intro { margin-bottom: 18px; padding: 21px 24px; border: 1px solid #dcece2; border-radius: 18px; background: linear-gradient(125deg, #e6f5eb, #f6faf3); }
@@ -239,9 +246,10 @@ body[data-page="my-posts"] .site-footer { display: none; }
 }
 
 @media (max-width: 480px) {
-  .search-entry { min-height: 48px; padding: 11px 13px; gap: 9px; margin-bottom: 14px; }
+  .search-entry { min-height: 48px; padding: 7px 8px 7px 13px; gap: 9px; margin-bottom: 9px; }
   .search-entry-text { font-size: 14px; }
   .search-entry-cta { padding: 6px 12px; font-size: 13px; }
+  .home-search-state { align-items: flex-start; margin-bottom: 14px; font-size: 12px; }
   .search-card { padding: 14px; border-radius: 15px; }
   .search-row { flex-direction: column; gap: 9px; }
   .search-submit { width: 100%; }
