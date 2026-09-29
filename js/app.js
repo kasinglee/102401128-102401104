@@ -17,6 +17,7 @@
   let currentQuery = "";
   let activeOnly = false;
   let toastTimer;
+  let statusFilterTimer;
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -77,6 +78,7 @@
   }
 
   function render() {
+    clearTimeout(statusFilterTimer);
     const page = pages.get(currentPage);
     if (!page) return;
     document.body.dataset.page = currentPage;
@@ -108,6 +110,16 @@
     </article>`;
   }
 
+  function homeEmptyHtml() {
+    const hasFinishedResults = activeOnly && store.list({ type: currentFilter, query: currentQuery }).length > 0;
+    const message = hasFinishedResults
+      ? "当前筛选下没有进行中的信息，可以关闭右侧开关查看已结束记录。"
+      : currentQuery
+        ? `没有找到与“${escapeHtml(currentQuery)}”相关的信息，请换个关键词试试。`
+        : "该分类还没有信息，欢迎发布第一条。";
+    return `<div class="empty"><span class="empty-icon" aria-hidden="true">🔎</span>${message}</div>`;
+  }
+
   registerPage("home", {
     render() {
       const items = store.list({ type: currentFilter, query: currentQuery, includeFinished: !activeOnly });
@@ -115,9 +127,6 @@
       const resultNote = currentQuery
         ? `<div class="home-search-state"><span>正在显示与“<strong>${escapeHtml(currentQuery)}</strong>”相关的信息</span><button type="button" data-clear-home-search>清除搜索</button></div>`
         : "";
-      const emptyMessage = currentQuery
-        ? `没有找到与“${escapeHtml(currentQuery)}”相关的信息，请换个关键词试试。`
-        : "该分类还没有信息，欢迎发布第一条。";
       return `<section class="container listing" aria-labelledby="listing-title">
         <form class="search-entry" id="home-search-form" role="search">
           <svg class="search-entry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -128,12 +137,12 @@
         <p class="search-syntax" id="home-search-help">空格或逗号可组合线索；“东三”与“东3”相同。正则示例：/雨伞|耳机/</p>
         <p class="search-error" id="home-search-error" role="alert" hidden></p>
         ${resultNote}
-        <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2></div><span class="count">共 ${items.length} 条</span></div>
+        <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2></div><span class="count" aria-live="polite">共 ${items.length} 条</span></div>
         <div class="filter-tools">
           <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
           <label class="active-only"><input type="checkbox" data-active-only${activeOnly ? " checked" : ""}><span class="active-only-track" aria-hidden="true"></span><span>只看进行中</span></label>
         </div>
-        <div class="item-grid">${items.length ? items.map(renderCard).join("") : `<div class="empty"><span class="empty-icon">🔎</span>${emptyMessage}</div>`}</div>
+        <div class="item-grid">${items.length ? items.map(renderCard).join("") : homeEmptyHtml()}</div>
       </section>`;
     },
     mount() {
@@ -181,7 +190,29 @@
       if (activeToggle) {
         activeToggle.addEventListener("change", () => {
           activeOnly = activeToggle.checked;
-          render();
+          clearTimeout(statusFilterTimer);
+          const grid = document.querySelector(".listing .item-grid");
+          const count = document.querySelector(".listing .count");
+          const items = store.list({ type: currentFilter, query: currentQuery, includeFinished: !activeOnly });
+          if (!grid) return;
+          if (count) count.textContent = `共 ${items.length} 条`;
+          if (activeOnly) {
+            const finishedCards = [...grid.querySelectorAll(".item-card.is-finished")];
+            finishedCards.forEach((card) => card.classList.add("is-disappearing"));
+            statusFilterTimer = setTimeout(() => {
+              if (!activeOnly || !grid.isConnected) return;
+              finishedCards.forEach((card) => card.remove());
+              if (!items.length) grid.innerHTML = homeEmptyHtml();
+            }, 220);
+          } else {
+            grid.querySelectorAll(".is-disappearing").forEach((card) => card.classList.remove("is-disappearing"));
+            const existing = new Set([...grid.querySelectorAll("[data-item-id]")].map((card) => card.dataset.itemId));
+            if (items.length) grid.querySelector(".empty")?.remove();
+            items.forEach((item) => {
+              if (!existing.has(item.id)) grid.insertAdjacentHTML("beforeend", renderCard(item));
+            });
+            if (!items.length) grid.innerHTML = homeEmptyHtml();
+          }
           showToast(activeOnly ? "已隐藏已结束的信息" : "已显示全部状态的信息");
         });
       }
