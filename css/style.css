@@ -180,35 +180,38 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .item-description { margin-bottom: 12px; font-size: 12.5px; line-height: 1.65; }
   .item-meta { gap: 6px 12px; font-size: 11.5px; line-height: 1.5; }
   .item-thumb { width: 76px; min-height: 76px; font-size: 42px; border-radius: 10px; }
-  .publish-wrap { padding: 22px 13px 30px; }
+  .publish-wrap { padding: 24px 13px 42px; }
   .page-intro { margin-bottom: 16px; }
+  .publish-wrap .page-intro { margin-bottom: 21px; }
   .page-intro .eyebrow { margin-bottom: 8px; }
   .page-intro h1 { font-size: 25px; margin-bottom: 4px; }
-  .form-card { padding: 16px; border-radius: 15px; }
-  .form-section h2 { font-size: 15px; margin-bottom: 13px; }
-  .form-section + .form-section { margin-top: 15px; padding-top: 17px; }
-  .type-switch { gap: 8px; margin-bottom: 17px; }
+  .form-card { padding: 18px; border-radius: 15px; }
+  .form-section h2 { font-size: 15px; margin-bottom: 17px; }
+  .form-section + .form-section { margin-top: 25px; padding-top: 24px; }
+  .type-switch { gap: 8px; margin-bottom: 21px; }
   .claim-check-note { display: block; margin: -4px 0 16px; padding: 9px 10px; }
   .claim-check-note strong { display: block; margin-bottom: 2px; }
   .type-choice { min-width: 0; min-height: 44px; font-size: 14px; }
   .field-grid { grid-template-columns: 1fr; }
-  .field { margin-bottom: 13px; }
-  .field label { margin-bottom: 5px; }
+  .field { margin-bottom: 20px; }
+  .field label { margin-bottom: 8px; }
   .input { min-height: 44px; font-size: 16px; }
+  .publish-wrap .input { min-height: 48px; }
   textarea.input { min-height: 78px; }
-  .photo-preview { width: 58px; height: 58px; }
-  .photo-row { gap: 9px; }
-  .file-input { max-width: calc(100% - 70px); }
-  .field-help { margin-top: 5px; }
-  .privacy-note { padding: 9px 10px; margin-bottom: 13px; }
-  .form-actions { margin-top: 4px; }
+  .publish-wrap textarea.input { min-height: 100px; }
+  .photo-preview { width: 64px; height: 64px; }
+  .photo-row { gap: 12px; }
+  .file-input { max-width: calc(100% - 76px); }
+  .field-help { margin-top: 8px; }
+  .privacy-note { padding: 11px 12px; margin-bottom: 18px; }
+  .form-actions { margin-top: 12px; }
   .form-actions .button { flex: 1; }
   .site-footer { flex-direction: column; padding: 15px 17px; gap: 4px; }
   .toast { bottom: calc(72px + env(safe-area-inset-bottom)); }
 }
 
 @media (min-width: 380px) and (max-width: 480px) {
-  .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; }
+  .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
 }
 
 /* ── 第二阶段 · 首页搜索入口与搜索页 ───────────────────────────── */
