@@ -204,6 +204,8 @@ body[data-page="my-posts"] .site-footer { display: none; }
 .home-search-state { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 2px 18px; color: #66817b; font-size: 13px; line-height: 1.5; }
 .home-search-state strong { color: #19333a; }
 .home-search-state button { flex: none; border: 0; padding: 4px 0 4px 10px; background: transparent; color: #0f766e; font-weight: 750; }
+.search-syntax { margin: 0 2px 12px; color: #758b86; font-size: 12px; line-height: 1.5; }
+.search-error { margin: 0 2px 12px; color: #b14b42; font-size: 12px; line-height: 1.5; }
 
 .page-wrap { width: 100%; max-width: 820px; margin: 0 auto; padding: 30px 30px 60px; }
 .search-intro { margin-bottom: 18px; padding: 21px 24px; border: 1px solid #dcece2; border-radius: 18px; background: linear-gradient(125deg, #e6f5eb, #f6faf3); }
