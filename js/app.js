@@ -199,6 +199,7 @@
             <button type="button" class="type-choice is-active" data-type="lost" aria-pressed="true">🔎 我在寻物</button>
             <button type="button" class="type-choice" data-type="found" aria-pressed="false">📦 我来招领</button>
           </div><input type="hidden" name="type" value="lost">
+          <div class="claim-check-note" id="claim-check-note" role="note" hidden><strong>认领核对提示</strong><span>公开信息只写物品的大致特征，请保留一项独特细节。有人联系时，让对方先描述该细节，再商定归还方式。</span></div>
           <div class="field-grid">
             ${field("name", `物品名称 <span class="required">*</span>`, `<input class="input" id="name" name="name" maxlength="60" placeholder="例如：黑色无线耳机" autocomplete="off">`, true)}
             ${field("location", `地点 <span class="required">*</span>`, `<input class="input" id="location" name="location" maxlength="100" placeholder="例如：图书馆二楼自习区" autocomplete="off">`, true)}
@@ -222,6 +223,8 @@
 
       form.querySelectorAll("[data-type]").forEach((button) => button.addEventListener("click", () => {
         form.elements.type.value = button.dataset.type;
+        const claimNote = document.getElementById("claim-check-note");
+        if (claimNote) claimNote.hidden = button.dataset.type !== "found";
         form.querySelectorAll("[data-type]").forEach((choice) => {
           const active = choice === button;
           choice.classList.toggle("is-active", active);
