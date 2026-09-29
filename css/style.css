@@ -62,8 +62,8 @@ h1, h2, h3, p { margin-top: 0; }
 .item-card h3 { font-size: 18px; line-height: 1.4; margin: 0 0 8px; overflow-wrap: anywhere; }
 .item-description { color: #66807a; font-size: 13px; line-height: 1.6; margin: 0 0 14px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .item-meta { display: flex; flex-wrap: wrap; gap: 7px 17px; color: #768d87; font-size: 12px; }
-.item-thumb { width: 100px; height: 100px; flex: none; border-radius: 13px; display: grid; place-items: center; background: linear-gradient(140deg, #eef6ef, #e4f0e8); font-size: 44px; overflow: hidden; }
-.item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.item-thumb { position: relative; width: 112px; min-height: 112px; align-self: stretch; flex: none; border-radius: 13px; display: grid; place-items: center; background: linear-gradient(140deg, #eef6ef, #e4f0e8); font-size: 58px; overflow: hidden; }
+.item-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .empty { grid-column: 1 / -1; border: 1px dashed #cbded3; background: #fafdF9; text-align: center; border-radius: 17px; padding: 45px 20px; color: #66817b; }
 .empty-icon { font-size: 40px; display: block; margin-bottom: 12px; }
 
@@ -162,7 +162,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .item-card h3 { font-size: 16px; margin-bottom: 5px; }
   .item-description { margin-bottom: 9px; font-size: 12px; }
   .item-meta { gap: 4px 10px; font-size: 11px; }
-  .item-thumb { width: 76px; height: 76px; font-size: 34px; border-radius: 10px; }
+  .item-thumb { width: 76px; min-height: 76px; font-size: 42px; border-radius: 10px; }
   .publish-wrap { padding: 22px 13px 30px; }
   .page-intro { margin-bottom: 16px; }
   .page-intro .eyebrow { margin-bottom: 8px; }
