@@ -99,16 +99,14 @@ textarea.input { min-height: 93px; resize: vertical; }
 .site-footer { max-width: 1140px; width: 100%; margin: auto; padding: 24px 30px; border-top: 1px solid #e6eeea; color: #8a9e96; font-size: 12px; display: flex; justify-content: space-between; gap: 12px; }
 .toast { position: fixed; left: 50%; bottom: 25px; transform: translate(-50%, 15px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; background: #184842; color: white; border-radius: 10px; padding: 12px 18px; box-shadow: 0 10px 30px #123b3270; z-index: 10; max-width: min(90vw, 460px); text-align: center; font-size: 14px; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
-.page-topbar { min-height: 66px; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 10px 16px; background: #fff; border-bottom: 1px solid #e5eeeb; }
+.page-topbar { min-height: 58px; position: relative; display: flex; align-items: center; justify-content: center; padding: 8px 16px; background: #f9fbfa; border-bottom: 1px solid #e5eeeb; }
 .page-topbar h1 { margin: 0; font-size: 20px; font-weight: 700; }
 .page-back, .page-home { position: absolute; top: 50%; transform: translateY(-50%); min-width: 44px; min-height: 44px; border: 0; background: transparent; color: #0f766e; }
 .page-back { left: 12px; display: grid; place-items: center; }
 .page-back svg { width: 22px; height: 22px; }
 .page-home { right: 12px; font-size: 14px; }
 .blank-page { min-height: 55vh; }
-body[data-page="detail"] .site-header,
 body[data-page="detail"] .site-footer,
-body[data-page="search"] .site-header,
 body[data-page="search"] .site-footer,
 body[data-page="my-posts"] .site-footer { display: none; }
 
@@ -147,11 +145,7 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .site-nav .nav-link.is-active,
   .site-nav .nav-link.is-active:hover { background: transparent; color: #0f766e; font-weight: 700; }
   .site-nav .nav-icon { width: 22px; height: 22px; }
-  body[data-page="detail"] .site-nav { display: none; }
-  body[data-page="detail"] .app-shell { padding-bottom: 0; }
-  body[data-page="search"] .app-shell { padding-bottom: 0; }
-  body[data-page="search"] .toast { bottom: calc(25px + env(safe-area-inset-bottom)); }
-  .page-topbar { min-height: calc(66px + env(safe-area-inset-top)); padding-top: calc(10px + env(safe-area-inset-top)); }
+  .page-topbar { min-height: 54px; padding: 7px 14px; }
   .listing { padding-top: 18px; padding-bottom: 32px; }
   .section-head { display: block; position: relative; margin-bottom: 14px; }
   .section-head .eyebrow { margin-bottom: 8px; }
