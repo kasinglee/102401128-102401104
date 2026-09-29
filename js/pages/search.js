@@ -43,6 +43,10 @@
     return `<div class="search-summary"><p class="search-summary-line">找到 <strong>${count}</strong> 条结果 · ${parts.join(" · ")}</p></div>`;
   }
 
+  function resultHeading() {
+    return `<div class="search-results-head"><h2 class="search-results-title">搜索结果</h2><button type="button" class="search-edit" data-search-edit>修改条件</button></div>`;
+  }
+
   function resultHtml() {
     // 关键词为空时一律回到初始提示，避免出现“空白输入却列出了全部信息”。
     if (!searchState.submitted || !searchState.query) {
@@ -54,22 +58,26 @@
     }
     const items = currentResults();
     if (!items.length) {
-      return summaryHtml(0) + `<div class="empty search-empty">
+      return resultHeading() + summaryHtml(0) + `<div class="empty search-empty">
         <span class="empty-icon" aria-hidden="true">🔎</span>
         <p class="empty-title">未找到与「${escapeHtml(searchState.query)}」相关的信息</p>
         <p class="empty-sub">试试更短的关键词，或去掉地点筛选后重新搜索。</p>
         <button type="button" class="button secondary" data-search-retry>修改关键词</button>
       </div>`;
     }
-    return summaryHtml(items.length) + `<div class="item-grid">${items.map(cardHtml).join("")}</div>`;
+    return resultHeading() + summaryHtml(items.length) + `<div class="item-grid">${items.map(cardHtml).join("")}</div>`;
   }
 
   function pageHtml() {
-    return `<section class="page-wrap search-wrap" aria-labelledby="search-title">
-      <div class="page-intro">
-        <p class="eyebrow">SEARCH</p>
-        <h1 id="search-title">搜索失物信息</h1>
-        <p>按物品名称、补充描述或地点查找；进行中的信息排在已结束记录前面。</p>
+    return `<div class="page-topbar search-topbar">
+      <button class="page-back" type="button" data-back aria-label="返回首页"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 19-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <h1>搜索</h1>
+    </div>
+    <section class="page-wrap search-wrap" aria-labelledby="search-title">
+      <div class="search-intro">
+        <p class="eyebrow">FIND A CLUE</p>
+        <h2 id="search-title">查找校园失物</h2>
+        <p>输入线索，筛选信息，再打开卡片查看详情。</p>
       </div>
       <form class="search-card" id="search-form" role="search" novalidate>
         <div class="search-row">
@@ -86,8 +94,15 @@
         </div>
         <p class="search-note">搜索范围包含物品名称、补充描述和地点；关键词留空时不会列出全部信息。</p>
       </form>
-      <div class="search-result-area" id="search-result-area" aria-live="polite">${resultHtml()}</div>
+      <div class="search-result-area" id="search-result-area" aria-live="polite" tabindex="-1">${resultHtml()}</div>
     </section>`;
+  }
+
+  function revealResults() {
+    const resultArea = document.getElementById("search-result-area");
+    if (!resultArea) return;
+    resultArea.focus({ preventScroll: true });
+    resultArea.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function syncFromInputs(queryInput, locationInput) {
@@ -107,6 +122,7 @@
     }
     searchState.submitted = true;
     refresh();
+    revealResults();
     const count = currentResults().length;
     showToast(count
       ? `找到 ${count} 条与「${searchState.query}」相关的信息`
@@ -153,9 +169,18 @@
           searchState.query = word;
           searchState.submitted = Boolean(word);
           refresh();
+          revealResults();
           showToast(`已按关键词「${word}」搜索`);
         });
       });
+
+      const edit = document.querySelector("[data-search-edit]");
+      if (edit) {
+        edit.addEventListener("click", () => {
+          form.scrollIntoView({ behavior: "smooth", block: "start" });
+          queryInput.focus({ preventScroll: true });
+        });
+      }
 
       const retry = document.querySelector("[data-search-retry]");
       if (retry) {

@@ -119,6 +119,8 @@ textarea.input { min-height: 93px; resize: vertical; }
 .blank-page { min-height: 55vh; }
 body[data-page="detail"] .site-header,
 body[data-page="detail"] .site-footer,
+body[data-page="search"] .site-header,
+body[data-page="search"] .site-footer,
 body[data-page="my-posts"] .site-footer { display: none; }
 
 @media (max-width: 760px) {
@@ -163,6 +165,8 @@ body[data-page="my-posts"] .site-footer { display: none; }
   body[data-page="my-posts"] .brand { display: none; }
   body[data-page="detail"] .site-nav { display: none; }
   body[data-page="detail"] .app-shell { padding-bottom: 0; }
+  body[data-page="search"] .app-shell { padding-bottom: 0; }
+  body[data-page="search"] .toast { bottom: calc(25px + env(safe-area-inset-bottom)); }
   .page-topbar { min-height: calc(66px + env(safe-area-inset-top)); padding-top: calc(10px + env(safe-area-inset-top)); }
   .hero-inner { min-height: 0; padding-top: 28px; padding-bottom: 30px; }
   .hero-art { display: none; }
@@ -224,8 +228,12 @@ body[data-page="my-posts"] .site-footer { display: none; }
 .search-entry-cta { flex: none; font-size: 14px; font-weight: 750; color: #0f766e; background: #eaf4ef; border-radius: 9px; padding: 7px 14px; }
 
 .page-wrap { width: 100%; max-width: 820px; margin: 0 auto; padding: 30px 30px 60px; }
+.search-intro { margin-bottom: 18px; padding: 21px 24px; border: 1px solid #dcece2; border-radius: 18px; background: linear-gradient(125deg, #e6f5eb, #f6faf3); }
+.search-intro .eyebrow { margin-bottom: 8px; }
+.search-intro h2 { margin: 0 0 5px; font-size: 25px; line-height: 1.35; }
+.search-intro p:last-child { margin: 0; color: #5b746e; font-size: 13px; line-height: 1.6; }
 
-.search-card { background: #fff; border: 1px solid #e2ebe5; border-radius: 18px; padding: 20px; box-shadow: 0 10px 30px #2854470b; }
+.search-card { scroll-margin-top: 82px; background: #fff; border: 1px solid #e2ebe5; border-radius: 18px; padding: 20px; box-shadow: 0 10px 30px #2854470b; }
 .search-row { display: flex; gap: 10px; }
 .search-input { flex: 1; min-width: 0; min-height: 46px; }
 .search-submit { flex: none; padding: 10px 24px; }
@@ -236,7 +244,11 @@ body[data-page="my-posts"] .site-footer { display: none; }
 .search-location .input { width: 190px; min-height: 38px; padding: 7px 11px; font-size: 14px; }
 .search-note { margin: 14px 0 0; color: #758b86; font-size: 12px; line-height: 1.6; }
 
-.search-result-area { margin-top: 22px; }
+.search-result-area { margin-top: 22px; scroll-margin-top: 82px; outline: none; }
+.search-results-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 5px; }
+.search-results-title { margin: 0; font-size: 20px; }
+.search-edit { border: 0; background: transparent; color: #0f766e; padding: 7px 0 7px 12px; font-size: 13px; font-weight: 750; }
+.search-edit:hover { color: #0b625a; text-decoration: underline; }
 .search-summary { margin-bottom: 14px; }
 .search-summary-line { margin: 0; color: #66817b; font-size: 13px; line-height: 1.7; }
 .search-summary-line strong { color: #19333a; }
@@ -267,6 +279,8 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .search-location .input { width: auto; flex: 1; min-width: 0; }
   .search-start { padding: 20px 15px; }
   .page-wrap { padding: 20px 15px 34px; }
+  .search-intro { padding: 17px 18px; border-radius: 15px; }
+  .search-intro h2 { font-size: 21px; }
 }
 
 /* ── 第二阶段 · 物品详情 ─────────────────────────────────────── */
