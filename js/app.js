@@ -110,13 +110,7 @@
     render() {
       const items = store.list({ type: currentFilter });
       const filterButton = (value, label) => `<button type="button" class="filter-button${currentFilter === value ? " is-active" : ""}" data-filter="${value}" aria-pressed="${currentFilter === value}">${label}</button>`;
-      return `<section class="hero"><div class="container hero-inner">
-        <div><p class="eyebrow">CAMPUS LOST & FOUND</p><h1>每一份失物，<br><span>都值得被找回。</span></h1>
-        <p class="hero-copy">把散落在群聊里的线索，汇成一个清楚的入口。<br>从一条发布开始，让找回更有方向。</p>
-        <button type="button" class="button primary" data-nav="publish">发布一条信息 <span aria-hidden="true">↗</span></button></div>
-        <div class="hero-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-card one">🎧</div><div class="art-card two">☂️</div><div class="art-card three">💳</div></div>
-      </div></section>
-      <section class="container listing" aria-labelledby="listing-title">
+      return `<section class="container listing" aria-labelledby="listing-title">
         <button type="button" class="search-entry" data-nav="search" data-entry="new" aria-label="按关键词搜索失物信息">
           <svg class="search-entry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <span class="search-entry-text">搜索物品名称、补充描述或地点</span>
