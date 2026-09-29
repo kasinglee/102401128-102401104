@@ -155,6 +155,7 @@
           const opening = panel.hidden;
           panel.hidden = !opening;
           toggle.setAttribute("aria-expanded", String(opening));
+          toggle.classList.toggle("is-open", opening);
           const label = toggle.querySelector(".contact-toggle-label");
           if (label) label.textContent = opening ? "收起联系方式" : "查看联系方式";
         });

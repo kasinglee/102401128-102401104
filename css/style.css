@@ -291,7 +291,8 @@ body[data-page="my-posts"] .site-footer { display: none; }
 .contact-card { margin-top: 14px; background: #fff; border: 1px solid #e3ebe7; border-radius: 18px; box-shadow: 0 10px 30px #2854470b; overflow: hidden; }
 .contact-toggle { width: 100%; min-height: 56px; border: 0; background: transparent; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #0f766e; font-size: 15px; font-weight: 750; text-align: left; }
 .contact-toggle:hover { background: #f4faf7; }
-.contact-toggle svg { width: 17px; height: 17px; flex: none; }
+.contact-toggle svg { width: 17px; height: 17px; flex: none; transition: transform .18s; }
+.contact-toggle.is-open svg { transform: rotate(90deg); }
 .contact-panel { padding: 4px 22px 20px; border-top: 1px solid #eef3ef; }
 .contact-label { margin: 16px 0 6px; color: #7b918b; font-size: 12px; font-weight: 750; letter-spacing: .06em; }
 .contact-value { margin: 0 0 14px; color: #19333a; font-size: 17px; font-weight: 750; overflow-wrap: anywhere; user-select: text; }
