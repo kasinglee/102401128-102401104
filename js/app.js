@@ -60,6 +60,7 @@
 
   function navigate(name, params = {}) {
     if (!pages.has(name)) return false;
+    if (name === "detail" && !params.from) params = { ...params, from: currentPage };
     currentPage = name;
     currentParams = params;
     render();
@@ -71,6 +72,7 @@
   function render() {
     const page = pages.get(currentPage);
     if (!page) return;
+    document.body.dataset.page = currentPage;
     const ctx = context();
     appElement.innerHTML = page.render(ctx);
     document.querySelectorAll("[data-nav]").forEach((button) => {
@@ -95,6 +97,7 @@
         <div class="item-meta"><span>📍 ${escapeHtml(item.location)}</span><span>📅 ${escapeHtml(item.date)} ${escapeHtml(item.time)}</span></div>
       </div>
       <div class="item-thumb">${picture}</div>
+      <button class="card-hitbox" type="button" data-detail="${escapeHtml(item.id)}" aria-label="查看${escapeHtml(item.name)}的详情"></button>
     </article>`;
   }
 
@@ -229,7 +232,34 @@
     },
   });
 
+  // Second-stage teammates can replace either page with registerPage(name, page).
+  registerPage("my-posts", {
+    render() {
+      return `<div class="page-topbar"><h1>我的发布</h1></div><section class="blank-page" aria-label="我的发布内容"></section>`;
+    },
+  });
+
+  registerPage("detail", {
+    render() {
+      return `<div class="page-topbar page-topbar-detail">
+        <button class="page-back" type="button" data-back aria-label="返回"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 19-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h1>详情</h1>
+        <button class="page-home" type="button" data-nav="home">首页</button>
+      </div><section class="blank-page" aria-label="详情内容"></section>`;
+    },
+  });
+
   document.addEventListener("click", (event) => {
+    const back = event.target.closest("[data-back]");
+    if (back) {
+      navigate(currentParams.from && currentParams.from !== "detail" ? currentParams.from : "home");
+      return;
+    }
+    const detail = event.target.closest("[data-detail]");
+    if (detail) {
+      navigate("detail", { itemId: detail.dataset.detail });
+      return;
+    }
     const nav = event.target.closest("[data-nav]");
     if (nav) navigate(nav.dataset.nav);
     const filter = event.target.closest("[data-filter]");
