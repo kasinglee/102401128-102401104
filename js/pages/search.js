@@ -147,7 +147,7 @@
         });
       });
 
-      form.querySelectorAll("[data-quick]").forEach((button) => {
+      document.querySelectorAll("#search-result-area [data-quick]").forEach((button) => {
         button.addEventListener("click", () => {
           const word = trim(button.dataset.quick);
           searchState.query = word;
