@@ -122,6 +122,45 @@
         Date.parse(b.createdAt || 0) - Date.parse(a.createdAt || 0));
   }
 
+  function nameFragments(value) {
+    const normalized = normalizeSearchText(value).replace(/[^\p{L}\p{N}]+/gu, "");
+    if (!normalized) return [];
+    if (/^[a-z0-9]+$/i.test(normalized)) {
+      return normalized.split(/\s+/).filter((part) => part.length >= 2);
+    }
+    const fragments = new Set();
+    for (let size = 2; size <= Math.min(4, normalized.length); size += 1) {
+      for (let index = 0; index <= normalized.length - size; index += 1) {
+        fragments.add(normalized.slice(index, index + size));
+      }
+    }
+    return [...fragments];
+  }
+
+  function similarityReasons(source, candidate) {
+    if (!source || !candidate || source.id === candidate.id || source.type === candidate.type ||
+        isFinished(source) || isFinished(candidate)) return [];
+    const reasons = [];
+    const sourceLocation = normalizeSearchText(source.location).replace(/\s+/g, "");
+    const candidateLocation = normalizeSearchText(candidate.location).replace(/\s+/g, "");
+    if (sourceLocation && sourceLocation === candidateLocation) reasons.push(`地点相同：${text(source.location)}`);
+    const candidateName = normalizeSearchText(candidate.name).replace(/[^\p{L}\p{N}]+/gu, "");
+    const shared = nameFragments(source.name)
+      .filter((fragment) => candidateName.includes(fragment))
+      .sort((a, b) => b.length - a.length || a.localeCompare(b))[0];
+    if (shared) reasons.push(`名称共同关键词：${shared}`);
+    return reasons;
+  }
+
+  function findSimilarItems(source, items, limit = 3) {
+    return items
+      .map((item) => ({ item, reasons: similarityReasons(source, item) }))
+      .filter((entry) => entry.reasons.length)
+      .sort((a, b) => b.reasons.length - a.reasons.length ||
+        Date.parse(b.item.createdAt || 0) - Date.parse(a.item.createdAt || 0))
+      .slice(0, Math.max(0, limit));
+  }
+
   function getItem(items, id) {
     return items.find((item) => item.id === id) || null;
   }
@@ -141,5 +180,5 @@
     };
   }
 
-  return { ACTIVE_STATUS, FINISHED_STATUS, validateDraft, createItem, parseSearchQuery, listItems, getItem, finishItem, isFinished };
+  return { ACTIVE_STATUS, FINISHED_STATUS, validateDraft, createItem, parseSearchQuery, listItems, findSimilarItems, getItem, finishItem, isFinished };
 });

@@ -298,8 +298,11 @@
           formError.classList.add("is-visible");
           return;
         }
-        navigate("home");
-        showToast(`「${result.item.name}」发布成功，已加入首页`);
+        const matchCount = core.findSimilarItems(result.item, store.getItems()).length;
+        navigate("my-posts", { newItemId: result.item.id });
+        showToast(matchCount
+          ? `发布成功，自动发现 ${matchCount} 条可能相关的线索`
+          : `「${result.item.name}」发布成功，暂未发现相似线索`);
       });
     },
   });
