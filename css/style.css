@@ -1,8 +1,10 @@
 :root {
   font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
   color: #19333a;
-  background: #f5f8f6;
+  background: radial-gradient(circle at 8% 7%, #e7f5ee 0, transparent 29%), radial-gradient(circle at 94% 30%, #ecf7f2 0, transparent 25%), #f5f8f6;
   font-synthesis: none;
+  --ease-settle: cubic-bezier(.22, 1, .36, 1);
+  --ease-bounce: cubic-bezier(.2, 1.35, .42, 1);
 }
 
 * { box-sizing: border-box; }
@@ -362,4 +364,52 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .similar-clue { grid-template-columns: minmax(0, 1fr) auto; }
   .similar-clue-reason { grid-column: 1 / -1; }
   .my-post-actions .finish-button { flex: 1; }
+}
+
+/* Gentle movement keeps the information readable while adding depth to the interface. */
+@keyframes content-arrive {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.site-header { background: #ffffffeb; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.brand-mark { background: linear-gradient(150deg, #138d7e, #0b665f); transition: transform .4s var(--ease-bounce), box-shadow .35s var(--ease-settle); }
+.nav-link, .filter-button, .type-choice, .button, .search-entry-cta, .page-back, .page-home, .contact-toggle, .similar-clue {
+  transition: color .2s ease, background-color .2s ease, border-color .2s ease, box-shadow .28s var(--ease-settle), transform .32s var(--ease-bounce);
+}
+.listing, .publish-wrap, .page-wrap { animation: content-arrive .48s var(--ease-settle) backwards; }
+.item-grid > *, .my-posts-list > * { animation: content-arrive .46s var(--ease-settle) backwards; }
+.item-grid > :nth-child(2), .my-posts-list > :nth-child(2) { animation-delay: 45ms; }
+.item-grid > :nth-child(3), .my-posts-list > :nth-child(3) { animation-delay: 90ms; }
+.item-grid > :nth-child(n+4), .my-posts-list > :nth-child(n+4) { animation-delay: 125ms; }
+.item-card, .my-post-item, .form-card, .detail-card, .contact-card, .search-card {
+  box-shadow: 0 7px 24px #2854470d, 0 1px 2px #28544708;
+  transition: border-color .25s ease, box-shadow .36s var(--ease-settle), transform .38s var(--ease-bounce);
+}
+.item-card:focus-within, .my-post-item:focus-within { border-color: #81c8ad; box-shadow: 0 12px 30px #28544718; }
+.search-entry { box-shadow: 0 7px 24px #2854470d; transition: border-color .22s ease, box-shadow .32s var(--ease-settle), transform .38s var(--ease-bounce); }
+.search-entry:focus-within { border-color: #5ebfa2; box-shadow: 0 0 0 4px #75cdae29, 0 10px 26px #28544713; }
+.input { transition: border-color .2s ease, background-color .2s ease, box-shadow .25s var(--ease-settle); }
+.input:focus { border-color: #66bfa2; background: #fff; box-shadow: 0 0 0 4px #75cdae25; outline: none; }
+.section-head h2, .page-intro h1, .detail-name { letter-spacing: -.035em; }
+.badge, .count { box-shadow: inset 0 0 0 1px #ffffff70; }
+.item-thumb img { transition: transform .55s var(--ease-settle); }
+
+@media (hover: hover) {
+  .brand:hover .brand-mark { transform: rotate(-7deg) scale(1.06); box-shadow: 0 9px 19px #0f766e36; }
+  .item-card:hover, .my-post-item:hover { transform: translateY(-4px); border-color: #91d2b5; box-shadow: 0 17px 36px #28544718, 0 3px 8px #2854470b; }
+  .item-card:hover .item-thumb img, .my-post-item:hover .item-thumb img { transform: scale(1.055); }
+  .button:hover, .search-entry-cta:hover, .page-back:hover, .page-home:hover, .similar-clue:hover { transform: translateY(-2px); }
+  .filter-button:hover, .type-choice:hover, .nav-link:hover { transform: translateY(-2px); }
+}
+
+@media (max-width: 480px) {
+  .filter-tools { flex-wrap: wrap; gap: 0 12px; }
+  .filter-tools .filter-bar { margin-bottom: 9px; }
+  .active-only { margin-bottom: 14px; }
+  .site-nav { background: #fffffff2; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
