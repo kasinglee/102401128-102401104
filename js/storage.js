@@ -19,6 +19,15 @@
     return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
   }
 
+  function normalizeState(saved) {
+    return {
+      ...saved,
+      items: saved.items.map((item) => item.type === "lost" && item.status === "已找回"
+        ? { ...item, status: core.FINISHED_STATUS.lost }
+        : item),
+    };
+  }
+
   function createStore(storage, options = {}) {
     const key = options.key || KEY;
     const listeners = new Set();
@@ -32,6 +41,7 @@
       persistent = false;
     }
     if (!state) state = { version: 1, clientId: makeId(), items: DEMO_ITEMS.map((item) => ({ ...item })) };
+    state = normalizeState(state);
 
     function persist() {
       if (!storage) return false;
@@ -89,7 +99,7 @@
         try {
           const saved = JSON.parse(storage.getItem(key));
           if (saved && saved.version === 1 && Array.isArray(saved.items) && typeof saved.clientId === "string") {
-            state = saved;
+            state = normalizeState(saved);
             emit();
           }
         } catch (_) { /* Keep the last usable state. */ }

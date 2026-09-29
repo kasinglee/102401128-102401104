@@ -7,7 +7,7 @@
   "use strict";
 
   const ACTIVE_STATUS = Object.freeze({ lost: "寻找中", found: "招领中" });
-  const FINISHED_STATUS = Object.freeze({ lost: "已找回", found: "已归还" });
+  const FINISHED_STATUS = Object.freeze({ lost: "已找到", found: "已归还" });
   const VALID_TYPES = ["lost", "found"];
 
   function text(value) {
@@ -15,7 +15,8 @@
   }
 
   function isFinished(item) {
-    return item.status === FINISHED_STATUS.lost || item.status === FINISHED_STATUS.found;
+    return item.status === FINISHED_STATUS.lost || item.status === FINISHED_STATUS.found ||
+      (item.type === "lost" && item.status === "已找回");
   }
 
   function validateDraft(draft, now = new Date()) {
