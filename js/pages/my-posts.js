@@ -1,4 +1,4 @@
-/* “我的发布”页：只显示本浏览器发布的记录，并提供“已找回 / 已归还”状态更新。 */
+/* “我的发布”页：只显示本浏览器发布的记录，并提供“已找到 / 已归还”状态更新。 */
 (function () {
   "use strict";
 
@@ -9,7 +9,7 @@
 
   function itemBlock(item) {
     const finished = core.isFinished(item);
-    const actionLabel = item.type === "lost" ? "标记已找回" : "标记已归还";
+    const actionLabel = item.type === "lost" ? "标记已找到" : "标记已归还";
     const action = finished
       ? `<p class="my-post-done"><span aria-hidden="true">✓</span> 已结束（${escapeHtml(item.status)}），不再提供重复结束按钮</p>`
       : `<div class="my-post-actions"><button type="button" class="button primary finish-button" data-finish="${escapeHtml(item.id)}">${actionLabel}</button></div>`;
@@ -28,7 +28,7 @@
       : `<div class="empty">
           <span class="empty-icon" aria-hidden="true">📭</span>
           <p class="empty-title">你还没有发布过信息</p>
-          <p class="empty-sub">发布寻物或招领信息后，可以在这里把记录标记为“已找回”或“已归还”。</p>
+          <p class="empty-sub">发布寻物或招领信息后，可以在这里把记录标记为“已找到”或“已归还”。</p>
           <button type="button" class="button primary" data-nav="publish">去发布</button>
         </div>`;
     return `<section class="page-wrap my-posts-wrap" aria-labelledby="my-posts-title">
@@ -59,7 +59,7 @@
             return;
           }
           const status = result.item && result.item.status ? result.item.status : "";
-          showToast(`「${name}」状态已更新为「${status}」，首页与搜索会同步显示`);
+          showToast(`「${name}」状态已更新为「${status}」，首页列表会同步显示`);
         });
       });
     },
