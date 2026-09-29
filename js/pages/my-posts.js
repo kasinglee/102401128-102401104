@@ -31,8 +31,12 @@
           <p class="empty-sub">发布寻物或招领信息后，可以在这里把记录标记为“已找回”或“已归还”。</p>
           <button type="button" class="button primary" data-nav="publish">去发布</button>
         </div>`;
-    return `<div class="page-topbar"><h1>我的发布</h1></div>
-      <section class="page-wrap my-posts-wrap">
+    return `<section class="page-wrap my-posts-wrap" aria-labelledby="my-posts-title">
+        <div class="page-intro my-posts-intro">
+          <p class="eyebrow">MY POSTS</p>
+          <h1 id="my-posts-title">我的发布</h1>
+          <p>管理你在当前浏览器发布的信息和处理状态。</p>
+        </div>
         <p class="my-posts-note">这里只显示<b>本浏览器</b>发布的记录：预设演示信息的发布者是 demo，不会出现在这里；换电脑、换浏览器或清除浏览器数据后也不会同步。</p>
         ${summary}
         ${body}
