@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>拾见｜校园失物招领</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/core.js"></script>
+  <script defer src="js/storage.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="header-inner">
+        <button class="brand" type="button" data-nav="home" aria-label="拾见，返回首页">
+          <span class="brand-mark" aria-hidden="true">拾</span>
+          <span class="brand-name">拾见<span class="brand-dot">.</span></span>
+        </button>
+        <nav class="site-nav" aria-label="主导航">
+          <button type="button" class="nav-link" data-nav="home">浏览信息</button>
+          <button type="button" class="nav-link nav-primary" data-nav="publish">发布信息 <span aria-hidden="true">↗</span></button>
+        </nav>
+      </div>
+    </header>
+    <main id="app" tabindex="-1"></main>
+    <footer class="site-footer">
+      <span>拾见 · 让失物回家的路更短</span>
+      <span>演示信息与联系方式均为虚构数据</span>
+    </footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
