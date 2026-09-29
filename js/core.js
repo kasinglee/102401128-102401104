@@ -63,8 +63,46 @@
     };
   }
 
+  const CHINESE_DIGITS = Object.freeze({ 零: "0", 〇: "0", 一: "1", 二: "2", 两: "2", 三: "3", 四: "4", 五: "5", 六: "6", 七: "7", 八: "8", 九: "9" });
+
+  function normalizeSearchText(value) {
+    return text(value).normalize("NFKC").toLocaleLowerCase()
+      .replace(/[零〇一二两三四五六七八九十]+/g, (number) => {
+        if (!number.includes("十")) return [...number].map((digit) => CHINESE_DIGITS[digit]).join("");
+        const parts = number.split("十");
+        if (parts.length !== 2 || parts[0].length > 1 || parts[1].length > 1) return number;
+        const tens = parts[0] ? Number(CHINESE_DIGITS[parts[0]]) : 1;
+        const ones = parts[1] ? Number(CHINESE_DIGITS[parts[1]]) : 0;
+        return String(tens * 10 + ones);
+      });
+  }
+
+  function parseSearchQuery(value) {
+    const query = text(value);
+    if (!query) return { terms: [], regex: null, error: null };
+    if (query.startsWith("/")) {
+      const end = query.lastIndexOf("/");
+      if (end < 2) return { terms: [], regex: null, error: "正则请写成 /表达式/ 或 /表达式/i" };
+      const pattern = query.slice(1, end);
+      const flags = query.slice(end + 1);
+      if (pattern.length > 80 || !/^[imsu]*$/.test(flags)) {
+        return { terms: [], regex: null, error: "正则最多 80 个字符，仅支持 i、m、s、u 标志" };
+      }
+      try {
+        return { terms: [], regex: new RegExp(pattern, flags), error: null };
+      } catch (_) {
+        return { terms: [], regex: null, error: "正则表达式无效，请检查括号、转义或标志" };
+      }
+    }
+    return {
+      terms: query.split(/[\s,，、]+/u).filter(Boolean).map(normalizeSearchText),
+      regex: null,
+      error: null,
+    };
+  }
+
   function listItems(items, options = {}) {
-    const query = text(options.query).toLocaleLowerCase();
+    const search = parseSearchQuery(options.query);
     const type = VALID_TYPES.includes(options.type) ? options.type : "all";
     const location = text(options.location).toLocaleLowerCase();
     const ownerId = text(options.ownerId);
@@ -72,8 +110,13 @@
       .filter((item) => type === "all" || item.type === type)
       .filter((item) => !ownerId || item.ownerId === ownerId)
       .filter((item) => !location || text(item.location).toLocaleLowerCase().includes(location))
-      .filter((item) => !query || [item.name, item.description, item.location]
-        .some((value) => text(value).toLocaleLowerCase().includes(query)))
+      .filter((item) => {
+        if (search.error) return false;
+        const fields = [item.name, item.description, item.location];
+        if (search.regex) return fields.some((value) => search.regex.test(text(value)));
+        const normalized = fields.map(normalizeSearchText);
+        return search.terms.every((term) => normalized.some((value) => value.includes(term)));
+      })
       .filter((item) => options.includeFinished !== false || !isFinished(item))
       .sort((a, b) => Number(isFinished(a)) - Number(isFinished(b)) ||
         Date.parse(b.createdAt || 0) - Date.parse(a.createdAt || 0));
@@ -98,5 +141,5 @@
     };
   }
 
-  return { ACTIVE_STATUS, FINISHED_STATUS, validateDraft, createItem, listItems, getItem, finishItem, isFinished };
+  return { ACTIVE_STATUS, FINISHED_STATUS, validateDraft, createItem, parseSearchQuery, listItems, getItem, finishItem, isFinished };
 });

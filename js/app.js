@@ -121,9 +121,11 @@
         <form class="search-entry" id="home-search-form" role="search">
           <svg class="search-entry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <label class="sr-only" for="home-search-query">搜索物品名称、补充描述或地点</label>
-          <input class="search-entry-text" id="home-search-query" name="query" type="search" value="${escapeHtml(currentQuery)}" placeholder="搜索物品名称、补充描述或地点" autocomplete="off">
+          <input class="search-entry-text" id="home-search-query" name="query" type="search" value="${escapeHtml(currentQuery)}" placeholder="搜索名称、描述或地点，如：东三 雨伞" autocomplete="off" aria-describedby="home-search-help home-search-error">
           <button class="search-entry-cta" type="submit">搜索</button>
         </form>
+        <p class="search-syntax" id="home-search-help">空格或逗号可组合线索；“东三”与“东3”相同。正则示例：/雨伞|耳机/</p>
+        <p class="search-error" id="home-search-error" role="alert" hidden></p>
         ${resultNote}
         <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2><p class="section-sub">进行中的信息优先展示，已结束记录仍可查看。</p></div><span class="count">共 ${items.length} 条</span></div>
         <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
@@ -134,7 +136,10 @@
       const form = document.getElementById("home-search-form");
       const input = document.getElementById("home-search-query");
       if (form && input) {
+        const error = document.getElementById("home-search-error");
         const clearEmptyQuery = () => {
+          error.hidden = true;
+          error.textContent = "";
           if (currentQuery && !input.value.trim()) {
             currentQuery = "";
             render();
@@ -146,7 +151,15 @@
         input.addEventListener("search", clearEmptyQuery);
         form.addEventListener("submit", (event) => {
           event.preventDefault();
-          currentQuery = String(input.value || "").trim();
+          const nextQuery = String(input.value || "").trim();
+          const parsed = core.parseSearchQuery(nextQuery);
+          if (parsed.error) {
+            error.textContent = parsed.error;
+            error.hidden = false;
+            input.focus();
+            return;
+          }
+          currentQuery = nextQuery;
           render();
           showToast(currentQuery ? `已在首页筛选“${currentQuery}”` : "已显示全部信息");
         });
