@@ -50,7 +50,12 @@
   }
 
   function context() {
-    return { store, core, params: currentParams, escapeHtml, navigate, showToast, refresh: render };
+    // cardHtml 与 iconFor 由 app.js 统一提供，搜索页与“我的发布”页复用同一张卡片样式，
+    // 避免各页各写一套渲染而导致首页、搜索、详情显示不一致。
+    return {
+      store, core, params: currentParams, escapeHtml, navigate, showToast, refresh: render,
+      cardHtml: renderCard, iconFor,
+    };
   }
 
   function registerPage(name, page) {
@@ -112,6 +117,11 @@
         <div class="hero-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-card one">🎧</div><div class="art-card two">☂️</div><div class="art-card three">💳</div></div>
       </div></section>
       <section class="container listing" aria-labelledby="listing-title">
+        <button type="button" class="search-entry" data-nav="search" data-entry="new" aria-label="按关键词搜索失物信息">
+          <svg class="search-entry-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="search-entry-text">搜索物品名称、补充描述或地点</span>
+          <span class="search-entry-cta">搜索</span>
+        </button>
         <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2><p class="section-sub">进行中的信息优先展示，已结束记录仍可查看。</p></div><span class="count">共 ${items.length} 条</span></div>
         <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
         <div class="item-grid">${items.length ? items.map(renderCard).join("") : `<div class="empty"><span class="empty-icon">🔎</span>该分类还没有信息，欢迎发布第一条。</div>`}</div>
@@ -261,7 +271,12 @@
       return;
     }
     const nav = event.target.closest("[data-nav]");
-    if (nav) navigate(nav.dataset.nav);
+    if (nav) {
+      // data-entry="new" 表示从首页重新进入搜索页，可以让搜索页丢弃上一次的搜索状态；
+      // navigate() 每次都会生成新的 params 对象，重复渲染不会误触发重置。
+      navigate(nav.dataset.nav, nav.dataset.entry === "new" ? { reset: true } : {});
+      return;
+    }
     const filter = event.target.closest("[data-filter]");
     if (filter) {
       currentFilter = filter.dataset.filter;
@@ -273,6 +288,9 @@
     if (event.key === storageApi.KEY) store.reload();
   });
   store.subscribe(render);
-  window.LostFoundApp = { store, core, registerPage, navigate, refresh: render, showToast, escapeHtml };
+  window.LostFoundApp = {
+    store, core, registerPage, navigate, refresh: render, showToast, escapeHtml,
+    cardHtml: renderCard, iconFor,
+  };
   render();
 })();
