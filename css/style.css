@@ -403,6 +403,9 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .filter-button:hover, .type-choice:hover, .nav-link:hover { transform: translateY(-2px); }
 }
 
+/* The nested card in "My posts" shares the outer card's rounded hover surface. */
+.my-post-item .item-card:is(:hover, :focus-within) { transform: none; border-color: transparent; box-shadow: none; }
+
 @media (max-width: 480px) {
   .filter-tools { flex-wrap: wrap; gap: 0 12px; }
   /* A backdrop filter on this ancestor would anchor the fixed mobile nav to the header. */
