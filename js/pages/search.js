@@ -44,7 +44,8 @@
   }
 
   function resultHtml() {
-    if (!searchState.submitted) {
+    // 关键词为空时一律回到初始提示，避免出现“空白输入却列出了全部信息”。
+    if (!searchState.submitted || !searchState.query) {
       return `<div class="search-start">
         <p class="search-start-title">输入关键词后点击“搜索”或按 Enter 开始查找。</p>
         <p class="search-start-sub">常用关键词</p>
@@ -139,6 +140,8 @@
       form.querySelectorAll("[data-search-type]").forEach((button) => {
         button.addEventListener("click", () => {
           syncFromInputs(queryInput, locationInput);
+          // 若关键词已被清空，退回到初始提示状态，而不是列出全部信息。
+          if (!searchState.query) searchState.submitted = false;
           searchState.type = button.dataset.searchType;
           refresh();
         });
