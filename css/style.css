@@ -44,6 +44,15 @@ h1, h2, h3, p { margin-top: 0; }
 .section-sub { color: #758b86; font-size: 14px; margin: 0; }
 .count { color: #66817b; font-size: 13px; background: #e9f1ec; border-radius: 99px; padding: 8px 11px; white-space: nowrap; }
 .filter-bar { display: flex; gap: 9px; margin-bottom: 19px; }
+.filter-tools { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.filter-tools .filter-bar { flex-wrap: wrap; }
+.active-only { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; color: #59736d; font-size: 13px; font-weight: 650; cursor: pointer; white-space: nowrap; }
+.active-only input { position: absolute; opacity: 0; pointer-events: none; }
+.active-only-track { position: relative; width: 38px; height: 22px; border-radius: 99px; background: #cbd9d3; transition: background .18s; }
+.active-only-track::after { content: ""; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px #21483c30; transition: transform .18s; }
+.active-only input:checked + .active-only-track { background: #0f766e; }
+.active-only input:checked + .active-only-track::after { transform: translateX(16px); }
+.active-only input:focus-visible + .active-only-track { outline: 3px solid #a4d9cd; outline-offset: 2px; }
 .filter-button { border: 1px solid #d9e7e0; background: white; color: #59736d; border-radius: 99px; min-height: 38px; padding: 7px 17px; font-weight: 650; }
 .filter-button:hover { border-color: #9bcdbc; }
 .filter-button.is-active { color: white; background: #145f59; border-color: #145f59; }
@@ -155,6 +164,9 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .section-sub { font-size: 12px; line-height: 1.5; }
   .count { position: absolute; right: 0; top: 27px; padding: 6px 9px; font-size: 11px; }
   .filter-bar { gap: 7px; margin-bottom: 13px; }
+  .filter-tools { align-items: center; gap: 8px; }
+  .filter-tools .filter-bar { margin-bottom: 13px; }
+  .active-only { min-height: 36px; margin-bottom: 13px; font-size: 12px; }
   .filter-button { min-height: 36px; padding: 6px 15px; font-size: 13px; }
   .item-grid { gap: 11px; }
   .item-card { padding: 13px; gap: 10px; border-radius: 14px; }

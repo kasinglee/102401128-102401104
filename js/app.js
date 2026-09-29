@@ -15,6 +15,7 @@
   let currentParams = {};
   let currentFilter = "all";
   let currentQuery = "";
+  let activeOnly = false;
   let toastTimer;
 
   function escapeHtml(value) {
@@ -109,7 +110,7 @@
 
   registerPage("home", {
     render() {
-      const items = store.list({ type: currentFilter, query: currentQuery });
+      const items = store.list({ type: currentFilter, query: currentQuery, includeFinished: !activeOnly });
       const filterButton = (value, label) => `<button type="button" class="filter-button${currentFilter === value ? " is-active" : ""}" data-filter="${value}" aria-pressed="${currentFilter === value}">${label}</button>`;
       const resultNote = currentQuery
         ? `<div class="home-search-state"><span>正在显示与“<strong>${escapeHtml(currentQuery)}</strong>”相关的信息</span><button type="button" data-clear-home-search>清除搜索</button></div>`
@@ -128,7 +129,10 @@
         <p class="search-error" id="home-search-error" role="alert" hidden></p>
         ${resultNote}
         <div class="section-head"><div><p class="eyebrow">LATEST POSTS</p><h2 id="listing-title">校园失物信息</h2><p class="section-sub">进行中的信息优先展示，已结束记录仍可查看。</p></div><span class="count">共 ${items.length} 条</span></div>
-        <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
+        <div class="filter-tools">
+          <div class="filter-bar" role="group" aria-label="信息类型筛选">${filterButton("all", "全部")}${filterButton("lost", "寻物")}${filterButton("found", "招领")}</div>
+          <label class="active-only"><input type="checkbox" data-active-only${activeOnly ? " checked" : ""}><span class="active-only-track" aria-hidden="true"></span><span>只看进行中</span></label>
+        </div>
         <div class="item-grid">${items.length ? items.map(renderCard).join("") : `<div class="empty"><span class="empty-icon">🔎</span>${emptyMessage}</div>`}</div>
       </section>`;
     },
@@ -171,6 +175,14 @@
           render();
           const nextInput = document.getElementById("home-search-query");
           if (nextInput) nextInput.focus();
+        });
+      }
+      const activeToggle = document.querySelector("[data-active-only]");
+      if (activeToggle) {
+        activeToggle.addEventListener("change", () => {
+          activeOnly = activeToggle.checked;
+          render();
+          showToast(activeOnly ? "已隐藏已结束的信息" : "已显示全部状态的信息");
         });
       }
     },
