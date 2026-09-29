@@ -311,3 +311,28 @@ body[data-page="my-posts"] .site-footer { display: none; }
   .detail-photo img { max-height: 240px; }
   .detail-photo-fallback { height: 120px; font-size: 44px; }
 }
+
+/* ── 第二阶段 · 我的发布 ─────────────────────────────────────── */
+.my-posts-wrap { max-width: 820px; }
+.my-posts-note { margin: 0 0 16px; padding: 11px 13px; background: #edf7f1; border: 1px solid #d7ebdd; border-radius: 9px; color: #2e7469; font-size: 12px; line-height: 1.7; }
+.my-posts-summary { margin: 0 0 14px; color: #66817b; font-size: 13px; }
+.my-posts-summary strong { color: #19333a; }
+.my-posts-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.my-post-item { min-width: 0; display: flex; flex-direction: column; gap: 0; background: #fff; border: 1px solid #e3ebe7; border-radius: 17px; padding: 16px; box-shadow: 0 5px 18px #28544709; }
+.my-post-item .item-card { border: 0; box-shadow: none; padding: 0; border-radius: 0; background: transparent; }
+.my-post-actions { display: flex; margin-top: 14px; padding-top: 14px; border-top: 1px solid #eef3ef; }
+.my-post-actions .finish-button { width: 100%; }
+.my-post-done { margin: 14px 0 0; padding-top: 13px; border-top: 1px solid #eef3ef; color: #7b918b; font-size: 12px; line-height: 1.6; }
+.my-post-done span { color: #128070; font-weight: 800; }
+.my-posts-foot { display: flex; justify-content: center; margin-top: 22px; }
+
+@media (max-width: 760px) {
+  .my-posts-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .my-posts-note { padding: 9px 11px; margin-bottom: 13px; }
+  .my-posts-list { gap: 11px; }
+  .my-post-item { padding: 13px; border-radius: 14px; }
+  .my-post-actions .finish-button { flex: 1; }
+}
