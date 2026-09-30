@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">拾见关键数据流</title>
+  <desc id="desc">首页、发布、详情和我的发布通过 app.js 调用核心规则与共用存储，浏览器 localStorage 持久化后再返回页面显示。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4fbf8"/><stop offset="1" stop-color="#edf7f3"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f5d57" flood-opacity=".12"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#47877f"/></marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; fill: #123b46; }.title { font-size: 29px; font-weight: 700; }.sub { font-size: 14px; fill: #55747a; }.label { font-size: 18px; font-weight: 700; }
+      .ui { fill: #fff; stroke: #b9ddd4; stroke-width: 2; filter: url(#shadow); }.logic { fill: #e4f5ee; stroke: #0b8075; stroke-width: 2; filter: url(#shadow); }.store { fill: #e8f0fb; stroke: #537da7; stroke-width: 2; filter: url(#shadow); }.disk { fill: #fffaf0; stroke: #d8a94b; stroke-width: 2; filter: url(#shadow); }
+      .flow { fill:none; stroke:#47877f; stroke-width:2.5; marker-end:url(#arrow); }.return { fill:none; stroke:#537da7; stroke-width:2.5; marker-end:url(#arrow); stroke-dasharray:7 6; }.small { font-size:13px; fill:#55747a; }
+    </style>
+  </defs>
+  <rect width="1200" height="650" fill="url(#bg)"/><rect x="35" y="28" width="1130" height="594" rx="28" fill="#fff" stroke="#d8ebe6" stroke-width="2"/>
+  <text x="78" y="85" class="title">拾见｜关键数据流</text><text x="78" y="116" class="sub">所有页面通过同一个 Store 读写物品记录，避免列表、详情和状态各自维护不同数据。</text><line x1="78" y1="142" x2="1122" y2="142" stroke="#d8ebe6" stroke-width="2"/>
+  <rect x="80" y="214" width="188" height="82" rx="18" class="ui"/><text x="174" y="248" text-anchor="middle" class="label">首页</text><text x="174" y="273" text-anchor="middle" class="sub">浏览、搜索、筛选</text>
+  <rect x="80" y="334" width="188" height="82" rx="18" class="ui"/><text x="174" y="368" text-anchor="middle" class="label">发布页</text><text x="174" y="393" text-anchor="middle" class="sub">收集并校验草稿</text>
+  <rect x="80" y="454" width="188" height="82" rx="18" class="ui"/><text x="174" y="488" text-anchor="middle" class="label">详情 / 我的发布</text><text x="174" y="513" text-anchor="middle" class="sub">联系、状态维护</text>
+  <path class="flow" d="M268 255H390M268 375H390M268 495H390"/>
+  <rect x="390" y="300" width="200" height="150" rx="22" class="logic"/><text x="490" y="340" text-anchor="middle" class="label">app.js</text><text x="490" y="369" text-anchor="middle" class="sub">导航、事件绑定</text><text x="490" y="394" text-anchor="middle" class="sub">通用卡片渲染</text><text x="490" y="419" text-anchor="middle" class="sub">页面注册与刷新</text>
+  <path class="flow" d="M590 346H690"/><path class="flow" d="M590 404H690"/>
+  <rect x="690" y="222" width="190" height="112" rx="20" class="logic"/><text x="785" y="260" text-anchor="middle" class="label">core.js</text><text x="785" y="287" text-anchor="middle" class="sub">校验、搜索、状态</text><text x="785" y="310" text-anchor="middle" class="sub">相似线索规则</text>
+  <rect x="690" y="390" width="190" height="112" rx="20" class="store"/><text x="785" y="428" text-anchor="middle" class="label">storage.js</text><text x="785" y="455" text-anchor="middle" class="sub">统一 Store 接口</text><text x="785" y="478" text-anchor="middle" class="sub">发布、读取、结束</text>
+  <path class="flow" d="M880 446H966"/><rect x="966" y="390" width="145" height="112" rx="20" class="disk"/><text x="1038" y="428" text-anchor="middle" class="label">localStorage</text><text x="1038" y="455" text-anchor="middle" class="sub">当前浏览器</text><text x="1038" y="478" text-anchor="middle" class="sub">持久化数据</text>
+  <path class="return" d="M966 526V568H490V450"/><text x="733" y="557" text-anchor="middle" class="small">读取、保存成功后通知订阅者，页面重新渲染同一份数据</text>
+  <text x="1080" y="585" text-anchor="end" class="sub">HW4 · 2026</text>
+</svg>
