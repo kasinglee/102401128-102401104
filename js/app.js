@@ -18,6 +18,7 @@
   let activeOnly = false;
   let toastTimer;
   let statusFilterTimer;
+  let cleanupPage;
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -78,6 +79,8 @@
   }
 
   function render() {
+    if (cleanupPage) cleanupPage();
+    cleanupPage = null;
     clearTimeout(statusFilterTimer);
     const page = pages.get(currentPage);
     if (!page) return;
@@ -90,7 +93,10 @@
       if (active) button.setAttribute("aria-current", "page");
       else button.removeAttribute("aria-current");
     });
-    if (typeof page.mount === "function") page.mount(ctx);
+    if (typeof page.mount === "function") {
+      const cleanup = page.mount(ctx);
+      if (typeof cleanup === "function") cleanupPage = cleanup;
+    }
   }
 
   function renderCard(item) {
@@ -275,29 +281,31 @@
         document.getElementById("form-error").classList.remove("is-visible");
       });
 
+      const imageReader = window.LostFoundImageReader.createImageReader({
+        makeReader: () => new FileReader(),
+        isActive: () => form.isConnected,
+        onLoad(data) {
+          imageData = data;
+          const image = document.createElement("img");
+          image.src = data;
+          image.alt = "待发布图片预览";
+          form.querySelector("#photo-preview").replaceChildren(image);
+        },
+        onError: () => setError("image", "图片读取失败，请重新选择"),
+      });
       imageInput.addEventListener("change", () => {
+        imageReader.select(null);
+        setError("image", "");
         const file = imageInput.files && imageInput.files[0];
         imageData = "";
         document.getElementById("photo-preview").textContent = "＋";
         if (!file) return;
-        if (!/image\/(jpeg|png|webp)/.test(file.type) || file.size > 700 * 1024) {
+        if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size > 700 * 1024) {
           setError("image", "请选择 700 KB 以内的 JPG、PNG 或 WebP 图片");
           imageInput.value = "";
           return;
         }
-        const reader = new FileReader();
-        reader.onload = () => {
-          imageData = String(reader.result || "");
-          const preview = document.getElementById("photo-preview");
-          if (preview) {
-            const image = document.createElement("img");
-            image.src = imageData;
-            image.alt = "待发布图片预览";
-            preview.replaceChildren(image);
-          }
-        };
-        reader.onerror = () => setError("image", "图片读取失败，请重新选择");
-        reader.readAsDataURL(file);
+        imageReader.select(file);
       });
 
       form.addEventListener("submit", (event) => {
@@ -335,6 +343,7 @@
           ? `发布成功，自动发现 ${matchCount} 条可能相关的线索`
           : `「${result.item.name}」发布成功，暂未发现相似线索`);
       });
+      return () => imageReader.dispose();
     },
   });
 

@@ -20,11 +20,29 @@
   }
 
   function normalizeState(saved) {
+    if (!saved || saved.version !== 1 || !Array.isArray(saved.items) ||
+        typeof saved.clientId !== "string" || !saved.clientId.trim()) return null;
+    const seen = new Set();
     return {
-      ...saved,
-      items: saved.items.map((item) => item.type === "lost" && item.status === "已找回"
-        ? { ...item, status: core.FINISHED_STATUS.lost }
-        : item),
+      version: 1,
+      clientId: saved.clientId,
+      items: saved.items.filter((item) => {
+        if (!item || typeof item !== "object" || Array.isArray(item) ||
+            typeof item.id !== "string" || !item.id.trim() || seen.has(item.id) ||
+            typeof item.ownerId !== "string" || !item.ownerId.trim() ||
+            !["lost", "found"].includes(item.type) ||
+            Object.keys(core.validateDraft(item, new Date(8640000000000000))).length ||
+            ![core.ACTIVE_STATUS[item.type], core.FINISHED_STATUS[item.type],
+              ...(item.type === "lost" ? ["已找回"] : [])].includes(item.status) ||
+            typeof item.createdAt !== "string" || !Number.isFinite(Date.parse(item.createdAt))) return false;
+        seen.add(item.id);
+        return true;
+      }).map((item) => ({
+        ...item,
+        description: typeof item.description === "string" ? item.description : "",
+        imageData: typeof item.imageData === "string" ? item.imageData : "",
+        status: item.status === "已找回" ? core.FINISHED_STATUS.lost : item.status,
+      })),
     };
   }
 
@@ -35,8 +53,7 @@
     let state;
     try {
       const saved = storage && JSON.parse(storage.getItem(key));
-      state = saved && saved.version === 1 && Array.isArray(saved.items) &&
-        typeof saved.clientId === "string" ? saved : null;
+      state = normalizeState(saved);
     } catch (_) {
       persistent = false;
     }
@@ -98,8 +115,9 @@
         if (!storage) return;
         try {
           const saved = JSON.parse(storage.getItem(key));
-          if (saved && saved.version === 1 && Array.isArray(saved.items) && typeof saved.clientId === "string") {
-            state = normalizeState(saved);
+          const normalized = normalizeState(saved);
+          if (normalized) {
+            state = normalized;
             emit();
           }
         } catch (_) { /* Keep the last usable state. */ }

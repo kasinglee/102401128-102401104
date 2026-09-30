@@ -153,3 +153,25 @@ test('T15 同类型、已结束、自身记录被排除；候选数量受 limit 
   assert.equal(core.findSimilarItems(source, records, 1).length, 1);
   assert.deepEqual(core.findSimilarItems(source, records, 0), []);
 });
+
+test('T23 不存在的日期、非闰年闰日及越界时间被拒绝', () => {
+  for (const date of ['2026-02-30', '2026-02-29', '2026-04-31', '2026-13-01', '2026-2-03']) {
+    assert.equal(core.validateDraft(draft({ date }), NOW).date, '日期或时间无效');
+  }
+  for (const time of ['24:00', '09:60', '9:00']) {
+    assert.equal(core.validateDraft(draft({ time }), NOW).date, '日期或时间无效');
+  }
+  assert.deepEqual(core.validateDraft(draft({ date: '2024-02-29', time: '23:59' }), NOW), {});
+});
+
+test('T24 危险正则被拒绝，常用正则仍可执行', () => {
+  for (const query of ['/(a+)+$/', '/(a|aa)+$/', '/a+a+$/', '/a?a?a?a?$/', '/a{1,60}$/', '/(?=a)a/']) {
+    assert.match(core.parseSearchQuery(query).error, /避免搜索卡顿/);
+    assert.deepEqual(core.listItems([item({ name: 'a'.repeat(60) + '!' })], { query }), []);
+  }
+  for (const query of ['/雨伞|耳机/', '/^蓝色.*雨伞$/', '/[蓝黑]+/', '/雨伞?/']) {
+    assert.equal(core.parseSearchQuery(query).error, null);
+    assert.equal(core.listItems([item()], { query }).length, 1);
+  }
+  assert.equal(core.parseSearchQuery('/\\(a\\+\\)/').error, null);
+});

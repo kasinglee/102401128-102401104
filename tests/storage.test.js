@@ -97,3 +97,44 @@ test('T22 无效 JSON 会恢复演示数据，仍可正常发布', () => {
   assert.equal(store.publish(draft()).saved, true);
   assert.equal(JSON.parse(storage.value()).version, 1);
 });
+
+test('T25 合法 JSON 中损坏条目被过滤，有效记录和发布者保持不变', () => {
+  const valid = { ...DEMO_ITEMS[1], ownerId: 'owner-a' };
+  const storage = memoryStorage(JSON.stringify({ version: 1, clientId: 'owner-a', items: [
+    null, 3, [], {}, { id: 'broken' },
+    { ...valid, id: 'bad-status', status: '未知' },
+    { ...valid, id: 'bad-date', date: '2026-02-30' },
+    { ...valid, id: 'long-name', name: 'a'.repeat(61) },
+    valid, { ...valid, name: '重复编号' },
+  ] }));
+  const store = createStore(storage);
+  assert.equal(store.getClientId(), 'owner-a');
+  assert.deepEqual(store.getMyItems(), [valid]);
+  assert.equal(JSON.parse(storage.value()).items.length, 1);
+  assert.equal(store.finish(valid.id).error, null);
+  assert.equal(store.publish(draft()).saved, true);
+});
+
+test('T26 全部条目损坏不会导致初始化或列表报错；空身份恢复初始数据', () => {
+  const store = createStore(memoryStorage(JSON.stringify({ version: 1, clientId: 'owner-a', items: [null] })));
+  assert.deepEqual(store.list(), []);
+  assert.equal(store.publish(draft()).saved, true);
+  const reset = createStore(memoryStorage(JSON.stringify({ version: 1, clientId: ' ', items: [] })));
+  assert.equal(reset.list().length, 3);
+  assert.ok(reset.getClientId().trim());
+});
+
+test('T27 reload 同样过滤损坏记录，旧状态迁移且不修改原输入', () => {
+  const storage = memoryStorage();
+  const store = createStore(storage);
+  const old = { ...DEMO_ITEMS[1], ownerId: store.getClientId(), status: '已找回', description: null };
+  storage.setItem(KEY, JSON.stringify({ version: 1, clientId: store.getClientId(), items: [null, old] }));
+  store.reload();
+  assert.equal(store.getMyItems().length, 1);
+  assert.equal(store.getItem(old.id).status, '已找到');
+  assert.equal(store.getItem(old.id).description, '');
+  assert.equal(old.status, '已找回');
+  storage.setItem(KEY, JSON.stringify({ version: 2, clientId: '', items: [] }));
+  store.reload();
+  assert.equal(store.getMyItems().length, 1);
+});

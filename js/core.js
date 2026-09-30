@@ -29,8 +29,15 @@
     if (!text(draft.contact)) errors.contact = "请填写 QQ 或校内账号";
 
     if (text(draft.date) && text(draft.time)) {
-      const happenedAt = new Date(`${draft.date}T${draft.time}:00`);
-      if (Number.isNaN(happenedAt.getTime())) errors.date = "日期或时间无效";
+      const date = text(draft.date);
+      const time = text(draft.time);
+      const happenedAt = new Date(`${date}T${time}:00`);
+      const [year, month, day] = date.split("-").map(Number);
+      const [hour, minute] = time.split(":").map(Number);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time) ||
+          Number.isNaN(happenedAt.getTime()) || happenedAt.getFullYear() !== year ||
+          happenedAt.getMonth() + 1 !== month || happenedAt.getDate() !== day ||
+          happenedAt.getHours() !== hour || happenedAt.getMinutes() !== minute) errors.date = "日期或时间无效";
       else if (happenedAt.getTime() > now.getTime()) errors.date = "发生时间不能晚于现在";
     }
     if (text(draft.name).length > 60) errors.name = "物品名称不能超过 60 字";
@@ -89,7 +96,28 @@
         return { terms: [], regex: null, error: "正则最多 80 个字符，仅支持 i、m、s、u 标志" };
       }
       try {
-        return { terms: [], regex: new RegExp(pattern, flags), error: null };
+        const regex = new RegExp(pattern, flags);
+        // A deliberately small subset: no groups/backreferences/count repeats,
+        // and at most one quantifier per alternative. This prevents nested or
+        // overlapping repetitions while retaining /雨伞|耳机/ and /^蓝色.*雨伞$/.
+        let inClass = false;
+        let repeats = 0;
+        for (let index = 0; index < pattern.length; index += 1) {
+          const char = pattern[index];
+          if (char === "\\") {
+            const escaped = pattern[++index];
+            if (!inClass && /[1-9kpP]/.test(escaped)) throw new Error("unsupported pattern");
+            continue;
+          }
+          if (char === "[" && !inClass) { inClass = true; continue; }
+          if (char === "]" && inClass) { inClass = false; continue; }
+          if (inClass) continue;
+          if (/[(){}]/.test(char) || (/[*+?]/.test(char) && ++repeats > 1)) {
+            return { terms: [], regex: null, error: "为避免搜索卡顿，正则不支持分组、回溯引用或花括号重复；每个分支最多一个 *、+ 或 ?" };
+          }
+          if (char === "|") repeats = 0;
+        }
+        return { terms: [], regex, error: null };
       } catch (_) {
         return { terms: [], regex: null, error: "正则表达式无效，请检查括号、转义或标志" };
       }
