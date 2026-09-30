@@ -1,41 +1,84 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="355" viewBox="0 0 1080 355" role="img" aria-labelledby="title"><title id="title">关键数据流</title>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#555"/></marker><style>text{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;font-size:20px;fill:#222;text-anchor:middle}.node{fill:#fff;stroke:#555;stroke-width:1.5}.flow{fill:none;stroke:#555;stroke-width:1.8;marker-end:url(#arrow);stroke-linejoin:round}.small{font-size:16px}</style></defs>
-<rect class="node" x="20" y="20" width="224" height="80" rx="3"/>
-<text x="132.0" y="67.0">发布表单</text>
-<path class="flow" d="M244 60H292"/>
-<rect class="node" x="292" y="20" width="224" height="80" rx="3"/>
-<text x="404.0" y="60.0">校验并创建</text>
-<text x="404.0" y="84.0" class="small">createItem</text>
-<path class="flow" d="M516 60H564"/>
-<rect class="node" x="564" y="20" width="224" height="80" rx="3"/>
-<text x="676.0" y="60.0">保存记录</text>
-<text x="676.0" y="84.0" class="small">localStorage</text>
-<path class="flow" d="M788 60H836"/>
-<rect class="node" x="836" y="20" width="224" height="80" rx="3"/>
-<text x="948.0" y="67.0">我的发布</text>
-<rect class="node" x="20" y="135" width="224" height="80" rx="3"/>
-<text x="132.0" y="182.0">搜索条件</text>
-<path class="flow" d="M244 175H292"/>
-<rect class="node" x="292" y="135" width="224" height="80" rx="3"/>
-<text x="404.0" y="175.0">筛选记录</text>
-<text x="404.0" y="199.0" class="small">listItems</text>
-<path class="flow" d="M516 175H564"/>
-<rect class="node" x="564" y="135" width="224" height="80" rx="3"/>
-<text x="676.0" y="182.0">匹配结果</text>
-<path class="flow" d="M788 175H836"/>
-<rect class="node" x="836" y="135" width="224" height="80" rx="3"/>
-<text x="948.0" y="182.0">首页列表</text>
-<rect class="node" x="20" y="250" width="224" height="80" rx="3"/>
-<text x="132.0" y="297.0">结束请求</text>
-<path class="flow" d="M244 290H292"/>
-<rect class="node" x="292" y="250" width="224" height="80" rx="3"/>
-<text x="404.0" y="290.0">检查发布者</text>
-<text x="404.0" y="314.0" class="small">finishItem</text>
-<path class="flow" d="M516 290H564"/>
-<rect class="node" x="564" y="250" width="224" height="80" rx="3"/>
-<text x="676.0" y="290.0">保存新状态</text>
-<text x="676.0" y="314.0" class="small">localStorage</text>
-<path class="flow" d="M788 290H836"/>
-<rect class="node" x="836" y="250" width="224" height="80" rx="3"/>
-<text x="948.0" y="297.0">页面刷新</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="850" viewBox="0 0 1240 850" role="img" aria-labelledby="title"><title id="title">关键数据流：发布、搜索和结束三条实际路径</title>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#24897e"/></marker><marker id="error-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#bc791c"/></marker><style>text{font-family:"Microsoft YaHei","PingFang SC",Arial,sans-serif;fill:#163c45}.heading{font-size:22px;font-weight:700}.body{font-size:18px;fill:#365e65}.code{font-size:17px;fill:#315d75}.flow{fill:none;stroke:#24897e;stroke-width:3;stroke-linejoin:round;marker-end:url(#arrow)}.error{fill:none;stroke:#bc791c;stroke-width:3;stroke-linejoin:round;marker-end:url(#error-arrow)}</style></defs>
+<rect x="20" y="20" width="270" height="230" rx="16" fill="#ffffff" stroke="#68b5a9" stroke-width="2"/>
+<text x="155.0" y="54" class="heading" text-anchor="middle">发布页：收集表单</text>
+<text x="155.0" y="84" class="body" text-anchor="middle">type: lost</text>
+<text x="155.0" y="111" class="body" text-anchor="middle">name: 蓝色折叠雨伞</text>
+<text x="155.0" y="138" class="body" text-anchor="middle">location: 东3-405</text>
+<text x="155.0" y="165" class="body" text-anchor="middle">date / time / contact</text>
+<path class="flow" d="M290 135H330"/>
+<rect x="330" y="20" width="270" height="230" rx="16" fill="#eaf7f2" stroke="#68b5a9" stroke-width="2"/>
+<text x="465.0" y="54" class="heading" text-anchor="middle">Store.publish(draft)</text>
+<text x="465.0" y="84" class="body" text-anchor="middle">core.createItem() 校验</text>
+<text x="465.0" y="111" class="body" text-anchor="middle">生成 id、ownerId</text>
+<text x="465.0" y="138" class="body" text-anchor="middle">status: 寻找中</text>
+<text x="465.0" y="165" class="body" text-anchor="middle">新增到 state.items</text>
+<path class="flow" d="M600 135H640"/>
+<rect x="640" y="20" width="270" height="230" rx="16" fill="#edf4ff" stroke="#7c9ec3" stroke-width="2"/>
+<text x="775.0" y="54" class="heading" text-anchor="middle">保存到 localStorage</text>
+<text x="775.0" y="84" class="body" text-anchor="middle">storage.js → persist()</text>
+<text x="775.0" y="111" class="body" text-anchor="middle">JSON.stringify(state)</text>
+<text x="775.0" y="138" class="body" text-anchor="middle">key: shijian.hw4.v1</text>
+<text x="775.0" y="165" class="body" text-anchor="middle">保存 items 和 clientId</text>
+<path class="flow" d="M910 135H950"/>
+<rect x="950" y="20" width="270" height="230" rx="16" fill="#ffffff" stroke="#68b5a9" stroke-width="2"/>
+<text x="1085.0" y="54" class="heading" text-anchor="middle">页面显示发布结果</text>
+<text x="1085.0" y="84" class="body" text-anchor="middle">返回 item / errors</text>
+<text x="1085.0" y="111" class="body" text-anchor="middle">成功：进入「我的发布」</text>
+<text x="1085.0" y="138" class="body" text-anchor="middle">显示新记录与相似线索</text>
+<text x="1085.0" y="165" class="body" text-anchor="middle">失败：提示错误，撤回新增</text>
+<rect x="20" y="300" width="270" height="230" rx="16" fill="#ffffff" stroke="#68b5a9" stroke-width="2"/>
+<text x="155.0" y="334" class="heading" text-anchor="middle">首页：输入筛选条件</text>
+<text x="155.0" y="364" class="body" text-anchor="middle">query: 东三 雨伞</text>
+<text x="155.0" y="391" class="body" text-anchor="middle">type: all</text>
+<text x="155.0" y="418" class="body" text-anchor="middle">includeFinished: false</text>
+<text x="155.0" y="445" class="body" text-anchor="middle">即「只看进行中」</text>
+<path class="flow" d="M290 415H330"/>
+<rect x="330" y="300" width="270" height="230" rx="16" fill="#eaf7f2" stroke="#68b5a9" stroke-width="2"/>
+<text x="465.0" y="334" class="heading" text-anchor="middle">Store.list(options)</text>
+<text x="465.0" y="364" class="body" text-anchor="middle">读取 state.items 副本</text>
+<text x="465.0" y="391" class="body" text-anchor="middle">交给 core.listItems()</text>
+<text x="465.0" y="418" class="body" text-anchor="middle">规范「东三」→「东3」</text>
+<text x="465.0" y="445" class="body" text-anchor="middle">两个词均命中，并筛选状态</text>
+<path class="flow" d="M600 415H640"/>
+<rect x="640" y="300" width="270" height="230" rx="16" fill="#edf4ff" stroke="#7c9ec3" stroke-width="2"/>
+<text x="775.0" y="334" class="heading" text-anchor="middle">返回匹配的记录数组</text>
+<text x="775.0" y="364" class="body" text-anchor="middle">例：蓝色雨伞 · 东3-405</text>
+<text x="775.0" y="391" class="body" text-anchor="middle">status: 寻找中</text>
+<text x="775.0" y="418" class="body" text-anchor="middle">查询不会写入 localStorage</text>
+<text x="775.0" y="445" class="body" text-anchor="middle">打开页面时先从本地加载</text>
+<path class="flow" d="M910 415H950"/>
+<rect x="950" y="300" width="270" height="230" rx="16" fill="#ffffff" stroke="#68b5a9" stroke-width="2"/>
+<text x="1085.0" y="334" class="heading" text-anchor="middle">首页：重新显示卡片</text>
+<text x="1085.0" y="364" class="body" text-anchor="middle">app.js 渲染筛选结果</text>
+<text x="1085.0" y="391" class="body" text-anchor="middle">点卡片 → 用 id 取详情</text>
+<text x="1085.0" y="418" class="body" text-anchor="middle">返回时保留筛选条件</text>
+<text x="1085.0" y="445" class="body" text-anchor="middle">清空搜索 → 恢复列表</text>
+<rect x="20" y="580" width="270" height="230" rx="16" fill="#ffffff" stroke="#68b5a9" stroke-width="2"/>
+<text x="155.0" y="614" class="heading" text-anchor="middle">「我的」：点击结束</text>
+<text x="155.0" y="644" class="body" text-anchor="middle">点击「标记已找到」</text>
+<text x="155.0" y="671" class="body" text-anchor="middle">传入这条雨伞记录的 id</text>
+<text x="155.0" y="698" class="body" text-anchor="middle">当前 ownerId = clientId</text>
+<text x="155.0" y="725" class="body" text-anchor="middle">招领按钮为「标记已归还」</text>
+<path class="flow" d="M290 695H330"/>
+<rect x="330" y="580" width="270" height="230" rx="16" fill="#eaf7f2" stroke="#68b5a9" stroke-width="2"/>
+<text x="465.0" y="614" class="heading" text-anchor="middle">Store.finish(id)</text>
+<text x="465.0" y="644" class="body" text-anchor="middle">core.finishItem() 检查</text>
+<text x="465.0" y="671" class="body" text-anchor="middle">记录存在、属于本人</text>
+<text x="465.0" y="698" class="body" text-anchor="middle">并且尚未结束</text>
+<text x="465.0" y="725" class="body" text-anchor="middle">寻找中 → 已找到</text>
+<path class="flow" d="M600 695H640"/>
+<rect x="640" y="580" width="270" height="230" rx="16" fill="#edf4ff" stroke="#7c9ec3" stroke-width="2"/>
+<text x="775.0" y="614" class="heading" text-anchor="middle">更新并再次保存</text>
+<text x="775.0" y="644" class="body" text-anchor="middle">替换 state.items 中记录</text>
+<text x="775.0" y="671" class="body" text-anchor="middle">persist() 写入新 JSON</text>
+<text x="775.0" y="698" class="body" text-anchor="middle">成功：emit() 通知页面</text>
+<text x="775.0" y="725" class="body" text-anchor="middle">失败：撤回修改并返回错误</text>
+<path class="flow" d="M910 695H950"/>
+<rect x="950" y="580" width="270" height="230" rx="16" fill="#ffffff" stroke="#68b5a9" stroke-width="2"/>
+<text x="1085.0" y="614" class="heading" text-anchor="middle">页面：刷新状态显示</text>
+<text x="1085.0" y="644" class="body" text-anchor="middle">app.js 订阅变化并重绘</text>
+<text x="1085.0" y="671" class="body" text-anchor="middle">首页 / 详情：已找到</text>
+<text x="1085.0" y="698" class="body" text-anchor="middle">「我的」隐藏重复结束按钮</text>
+<text x="1085.0" y="725" class="body" text-anchor="middle">只看进行中：不显示此记录</text>
 </svg>
